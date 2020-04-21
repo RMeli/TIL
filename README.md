@@ -7,8 +7,8 @@
 
 ### Cheminformatics
 
-[Conformers Generation with RDKit](cheminformatics/conformers-generation-rdkit.md)
+* [Conformers Generation with RDKit](cheminformatics/conformers-generation-rdkit.md)
 
 ### Unix
 
-[Sync Remote Folder](unix/sync-remote-folder.md)
+* [Sync Remote Folder](unix/sync-remote-folder.md)
