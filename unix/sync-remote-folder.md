@@ -2,7 +2,7 @@
 
 > `rsync` is an open source utility that provides fast incremental file transfer.
 
-To sync a remote folder locally, use:
+Sync a remote folder locally:
 
 ```bash
 rsync -avzh user@host:HOST_PATH LOCAL_PATH

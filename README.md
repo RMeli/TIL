@@ -2,13 +2,10 @@
 
 > Today I Learned
 
----
-
 ## Categories
 
 * [Unix](#Unix)
 
----
 
 ### Unix
 
