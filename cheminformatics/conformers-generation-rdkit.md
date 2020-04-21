@@ -10,3 +10,10 @@ params.randomSeed = 42
 
 AllChem.EmbedMultipleConfs(mol, numConfs=1, params=params)
 ```
+
+## Imports
+
+```python
+from rdkit import Chem
+from rdkit.Chem import AllChem
+```

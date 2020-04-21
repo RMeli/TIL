@@ -7,7 +7,7 @@
 
 ### Cheminformatics
 
-[Conformers Generation with RDKit]()
+[Conformers Generation with RDKit](cheminformatics/conformers-generation-rdkit.md)
 
 ### Unix
 
