@@ -16,5 +16,6 @@
 
 ### Unix
 
+* [Redirect Output to File](unix/redirect-output-to-file.md)
 * [SSH Passwordless Access](unix/ssh-passwordless.md)
 * [Sync Remote Folder](unix/sync-remote-folder.md)
