@@ -14,6 +14,10 @@
 
 * [git and Jupyter Notebooks](git/git-jupyter-notebooks.md)
 
+#### GitHub
+
+* [GitHub Secret Files](git/github-secret-files.md)
+
 ### Unix
 
 * [Redirect Output to File](unix/redirect-output-to-file.md)
