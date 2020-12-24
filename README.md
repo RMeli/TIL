@@ -12,6 +12,7 @@
 
 ### Git
 
+* [git commands](git/git-commands.md)
 * [git and Jupyter Notebooks](git/git-jupyter-notebooks.md)
 
 #### GitHub
