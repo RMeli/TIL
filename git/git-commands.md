@@ -1,4 +1,4 @@
-# Git Commands
+# `git` Commands
 
 ## `git add`
 

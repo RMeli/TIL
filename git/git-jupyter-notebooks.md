@@ -1,4 +1,4 @@
-# git and Jupyter Notebooks
+# `git` and Jupyter Notebooks
 
 ## nbstripout
 
