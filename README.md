@@ -6,10 +6,12 @@ Collection of useful notes.
 * [Git](#git)
 * [HPC](#HPC)
 * [Unix](#unix)
+* [VSCode](#vscode)
 
 ## Cheminformatics
 
 * [Conformers Generation with RDKit](cheminformatics/conformers-generation-rdkit.md)
+* [GZipped Files with Open Babel](cheminformatics/gzipped-files-openbabel.md)
 
 ## Git
 
@@ -18,16 +20,20 @@ Collection of useful notes.
 
 ### GitHub
 
-* [GitHub Secret Files](git/github-secret-files.md)
+* [GitHub Secret Files](github/github-secret-files.md)
 
 ## HPC
 
 ### SLURM
 
-* [`conda` with SLURM](HPC/conda-slurm.md)
+* [`conda` with SLURM](HPC/SLURM/conda-slurm.md)
 
 ## Unix
 
 * [Redirect Output to File](unix/redirect-output-to-file.md)
 * [SSH Passwordless Access](unix/ssh-passwordless.md)
 * [Sync Remote Folder](unix/sync-remote-folder.md)
+
+## VSCode
+
+* [Ope Window from Integrated Terminal](vscode/open-window-from-integrated-terminal.md)
