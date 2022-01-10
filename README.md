@@ -26,6 +26,10 @@ Collection of useful notes.
 
 * [`conda` with SLURM](HPC/conda-slurm.md)
 
+## Installations
+
+* [ZSH](installations/zsh.md)
+
 ## Unix
 
 * [Redirect Output to File](unix/redirect-output-to-file.md)
