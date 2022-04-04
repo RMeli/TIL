@@ -3,8 +3,11 @@
 Collection of useful notes.
 
 * [Cheminformatics](#cheminformatics)
+* [conda](#conda)
 * [Git](#git)
+* [GitHub](#github)
 * [HPC](#HPC)
+* [Installations](#installations)
 * [Unix](#unix)
 * [VSCode](#vscode)
 
@@ -12,6 +15,10 @@ Collection of useful notes.
 
 * [Conformers Generation with RDKit](cheminformatics/conformers-generation-rdkit.md)
 * [GZipped Files with Open Babel](cheminformatics/gzipped-files-openbabel.md)
+
+## conda
+
+* [Move `.conda` Directory](conda/move-conda.md)
 
 ## Git
 
@@ -27,6 +34,10 @@ Collection of useful notes.
 ### SLURM
 
 * [`conda` with SLURM](HPC/SLURM/conda-slurm.md)
+
+## Installations
+
+* [ZSH](installations/zsh.md)
 
 ## Unix
 
