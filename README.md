@@ -42,6 +42,7 @@ Collection of useful notes.
 
 ## Unix
 
+* [Kill Unresponsive Process](unix/kill-unresponsive-process.md)
 * [Redirect Output to File](unix/redirect-output-to-file.md)
 * [SSH Passwordless Access](unix/ssh-passwordless.md)
 * [Sync Remote Folder](unix/sync-remote-folder.md)
