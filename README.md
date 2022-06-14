@@ -37,6 +37,7 @@ Collection of useful notes.
 
 ## Installations
 
+* [MDAnalysis with OpenMP on macOS](installations/mda-omp-macos.md)
 * [ZSH](installations/zsh.md)
 
 ## Unix
