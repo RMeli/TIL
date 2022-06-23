@@ -45,6 +45,7 @@ Collection of useful notes.
 * [Kill Unresponsive Process](unix/kill-unresponsive-process.md)
 * [Redirect Output to File](unix/redirect-output-to-file.md)
 * [SSH Passwordless Access](unix/ssh-passwordless.md)
+* [SSH Forced Password](unix/ssh-forced-password.md)
 * [Sync Remote Folder](unix/sync-remote-folder.md)
 
 ## VSCode
