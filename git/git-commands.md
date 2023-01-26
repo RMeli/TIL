@@ -21,3 +21,15 @@ When cloning large repositories, setting [`feature.manyFiles`](https://www.git-s
 ```bash
 git clone -c feature.manyFiles=true <REPO>
 ```
+
+## `git diff`
+
+### Diff for Staged Files
+
+`git diff` does not show staged files in the diff. Show the diff of staged files:
+
+```bash
+git diff --staged
+# git diff --cached
+
+```
