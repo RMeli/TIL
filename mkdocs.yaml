@@ -12,8 +12,15 @@ nav:
   - TIL: index.md
   - 'git':
     - 'git commands': git/commands.md
+    - 'github': git/github.md
   - 'editors':
-    - 'vscode': editors/vscode.md
+    - 'VSCode': editors/vscode.md
+  - 'Python':
+    - 'conda': python/conda.md
+    - 'MDAnalysis': python/mdanalysis.md
+  - 'Cheminformatics':
+    - 'Open Babel': cheminformatics/openbabel.md
+    - 'RDKit': cheminformatics/rdkit.md
 theme:
   name: material
   language: en
