@@ -1,4 +1,6 @@
-# Open Window from Integrated Terminal
+# VScode
+
+## Open Window from Integrated Terminal
 
 Open a file in the current window from the integrated terminal:
 ```

@@ -12,6 +12,8 @@ nav:
   - TIL: index.md
   - 'git':
     - 'git commands': git/commands.md
+  - 'editors':
+    - 'vscode': editors/vscode.md
 theme:
   name: material
   language: en

@@ -1,4 +1,6 @@
-# Conformers Generation with RDKit
+# RDKit
+
+## Conformers Generation
 
 ```python
 mol = Chem.MolFromSmiles(smi)

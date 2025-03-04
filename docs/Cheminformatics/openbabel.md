@@ -1,6 +1,8 @@
-# GZipped Files with Open Babel
+# Open Babel
 
-Open Babel deals with GZippde input files automatically, whether the `.gz` extension is present or not.
+# GZipped Files
+
+Open Babel deals with GZipped input files automatically, whether the `.gz` extension is present or not.
 
 For writing files, however, the `.gz` extension is not enough, and the `-z` option need to be used explicitly:
 

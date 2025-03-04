@@ -1,10 +1,13 @@
-# GitHub Secret Files
+# GitHub
 
-GitHub Actions might require a secret file. Such file could be stored encrypted in the GitHub repository and the decryption passphrase can be stored as a [GitHub Secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets).
+## Secret Files
 
-## Encrypting Secret File with GPG
+GitHub Actions might require a secret file. 
+Such file could be stored encrypted in the GitHub repository and the decryption passphrase can be stored as a [GitHub Secret].
 
-Encrypt file with [GPG](https://gnupg.org/):
+### Encrypting Secret File with GPG
+
+Encrypt file with [GPG]:
 
 ```bash
 gpg --symmetric --cipher-algo AES256 FILE
@@ -12,7 +15,7 @@ gpg --symmetric --cipher-algo AES256 FILE
 
 The passphrase used at this step is required to decrypt the file and can be stored as a GitHub Secret.
 
-## Decryption Script
+### Decryption Secret File
 
 ```bash
 #!/bin/sh
@@ -29,7 +32,7 @@ The shell script has to  be executable when pushed to GitHub:
 chmod +x decrypt_secret.sh
 ```
 
-## GitHub Action
+### GitHub Action
 
 ```yaml
 name: Decrypt Secret File
@@ -47,3 +50,6 @@ jobs:
         env:
           SECRET_PASSPHRASE: ${{ secrets.SECRET_PASSPHRASE }}
 ```
+
+[GitHub Secret]: https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets
+[GPG]: https://gnupg.org/
