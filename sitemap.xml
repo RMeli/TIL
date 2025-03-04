@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://eth-cscs.github.io/</loc>
+         <lastmod>2025-03-04</lastmod>
+    </url>
+    <url>
+         <loc>https://eth-cscs.github.io/Cheminformatics/openbabel/</loc>
+         <lastmod>2025-03-04</lastmod>
+    </url>
+    <url>
+         <loc>https://eth-cscs.github.io/Cheminformatics/rdkit/</loc>
+         <lastmod>2025-03-04</lastmod>
+    </url>
+    <url>
+         <loc>https://eth-cscs.github.io/Python/conda/</loc>
+         <lastmod>2025-03-04</lastmod>
+    </url>
+    <url>
+         <loc>https://eth-cscs.github.io/Python/mdanalysis/</loc>
+         <lastmod>2025-03-04</lastmod>
+    </url>
+    <url>
+         <loc>https://eth-cscs.github.io/editors/vscode/</loc>
+         <lastmod>2025-03-04</lastmod>
+    </url>
+    <url>
+         <loc>https://eth-cscs.github.io/git/commands/</loc>
+         <lastmod>2025-03-04</lastmod>
+    </url>
+    <url>
+         <loc>https://eth-cscs.github.io/git/github/</loc>
+         <lastmod>2025-03-04</lastmod>
+    </url>
+</urlset>
