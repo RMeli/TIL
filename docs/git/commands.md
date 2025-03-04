@@ -30,6 +30,4 @@ git clone -c feature.manyFiles=true <REPO>
 
 ```bash
 git diff --staged
-# git diff --cached
-
 ```

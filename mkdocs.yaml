@@ -1,0 +1,84 @@
+site_name: Rocco Meli's TIL
+site_url: https://eth-cscs.github.io/
+repo_url: https://github.com/RMeli/TIL
+extra_css:
+  - stylesheets/extra.css
+plugins:
+  - search:
+      pipeline:
+        - trimmer
+  - autorefs
+nav:
+  - TIL: index.md
+  - 'git':
+    - 'git commands': git/commands.md
+theme:
+  name: material
+  language: en
+  features:
+    - content.code.copy
+    - content.action.edit
+    - navigation.indexes
+    - search.share
+    - navigation.instant
+    - navigation.tracking
+    - navigation.path
+    - navigation.top
+    - content.code.annotate
+  icon:
+    edit: material/pencil
+  palette:
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: white
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: white
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+markdown_extensions:
+  - admonition
+  - def_list
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.snippets
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - toc:
+      permalink: true
+  - attr_list
+  - md_in_html
+  - footnotes
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.blocks.caption
+
+extra_javascript:
+ - javascripts/mathjax.js
+ - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
