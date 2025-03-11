@@ -10,17 +10,19 @@ plugins:
   - autorefs
 nav:
   - TIL: index.md
-  - 'git':
-    - 'git commands': git/commands.md
-    - 'github': git/github.md
-  - 'editors':
-    - 'VSCode': editors/vscode.md
-  - 'Python':
-    - 'conda': python/conda.md
-    - 'MDAnalysis': python/mdanalysis.md
   - 'Cheminformatics':
     - 'Open Babel': cheminformatics/openbabel.md
     - 'RDKit': cheminformatics/rdkit.md
+  - 'Development':
+    - 'Spack': develop/spack.md
+  - 'editors':
+    - 'VSCode': editors/vscode.md
+  - 'git':
+    - 'git commands': git/commands.md
+    - 'github': git/github.md
+  - 'Python':
+    - 'conda': python/conda.md
+    - 'MDAnalysis': python/mdanalysis.md
 theme:
   name: material
   language: en
