@@ -14,12 +14,13 @@ nav:
     - 'Open Babel': cheminformatics/openbabel.md
     - 'RDKit': cheminformatics/rdkit.md
   - 'Development':
+    - 'CMake': develop/cmake.md
     - 'Spack': develop/spack.md
   - 'editors':
     - 'VSCode': editors/vscode.md
   - 'git':
     - 'git commands': git/commands.md
-    - 'github': git/github.md
+    - 'GitHub': git/github.md
   - 'Programming':
     - 'Fortran': programming/fortran.md
   - 'Python':
