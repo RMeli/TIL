@@ -30,3 +30,15 @@ sc["blas"].headers
 
 [Spack]: https://spack.io
 [Spack spec]: https://spack.readthedocs.io/en/latest/packaging_guide.html#spack-specs
+
+## Conflicts
+
+The following conflicts are equivalent:
+
+```python
+conflicts("+rocm +cuda")
+conflicts("+rocm", when="+cuda")
+conflicts("+cuda", when="+rocm")
+```
+
+The first option is cleaner, shorter, and less asymmetric.
