@@ -19,7 +19,7 @@ nav:
     - 'VSCode': editors/vscode.md
   - 'git':
     - 'git commands': git/commands.md
-    - 'github': git/github.md
+    - 'GitHub': git/github.md
   - 'Python':
     - 'conda': python/conda.md
     - 'MDAnalysis': python/mdanalysis.md
