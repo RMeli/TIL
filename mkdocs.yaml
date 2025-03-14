@@ -14,6 +14,7 @@ nav:
     - 'Open Babel': cheminformatics/openbabel.md
     - 'RDKit': cheminformatics/rdkit.md
   - 'Development':
+    - 'CMake': develop/cmake.md
     - 'Spack': develop/spack.md
   - 'editors':
     - 'VSCode': editors/vscode.md
