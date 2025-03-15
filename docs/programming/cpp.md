@@ -93,4 +93,11 @@ auto lru_cache(Result (*f)(Args...), std::optional<size_t> cache_size = std::nul
 14. Update the iterator in the `std::unordered_map` to point to the new position of the cached element, which is at the back of the queue.
     `std::deque::end` points after the last element in the `std::deque`.
 
+The `lru_cache` function returns a lambda that wraps the function `f` and implements the LRU cache.
+It can be used as follows:
+
+```cpp
+auto cached_f = lru_cache(f, 100);
+```
+
 [^1]: Functional Programming in C++, Ivan Čukić, Manning Publications Co., ISBN 9781617293818.
