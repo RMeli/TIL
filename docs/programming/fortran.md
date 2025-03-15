@@ -1,5 +1,7 @@
 # Fortran
 
+Additional code snippets and notes can be found at [RMeli/fortran-playground].
+
 ## ScaLAPACK
 
 ### `numroc`
@@ -13,12 +15,14 @@ Trying to use `numroc` in a Fortran program, results in the following error:
 Error: Function 'numroc' at (1) has no IMPLICIT type
 ```
 
-In order to avoid this error, the function needs to be declared as [external](https://docs.oracle.com/cd/E19957-01/805-4939/6j4m0vn9d/index.html).
-
-??? "`external` statement"
-    The `external` statement specifies procedures or dummy procedures as external, and allows their symbolic names to be used as actual arguments.
+In order to avoid this error, the function needs to be declared as
+[external](https://docs.oracle.com/cd/E19957-01/805-4939/6j4m0vn9d/index.html).
 
 ```fortran
 integer, external :: numroc
 ```
 
+??? "`external` statement"
+    The `external` statement specifies procedures or dummy procedures as external, and allows their symbolic names to be used as actual arguments.
+
+[RMeli/fortran-playground]: https://github.com/RMeli/fortran-playground
