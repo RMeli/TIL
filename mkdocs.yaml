@@ -16,16 +16,22 @@ nav:
   - 'Development':
     - 'CMake': develop/cmake.md
     - 'Spack': develop/spack.md
-  - 'editors':
+  - 'Editors':
     - 'VSCode': editors/vscode.md
   - 'git':
-    - 'git commands': git/commands.md
+    - 'git': git/git.md
     - 'GitHub': git/github.md
+  - 'Linux':
+    - 'Signals': linux/signals.md
+  - 'Networking':
+    - 'SSH': networking/ssh.md
   - 'Programming':
     - 'Fortran': programming/fortran.md
   - 'Python':
     - 'conda': python/conda.md
     - 'MDAnalysis': python/mdanalysis.md
+  - 'Tools':
+    - '`rsync`': tools/rsync.md
 theme:
   name: material
   language: en

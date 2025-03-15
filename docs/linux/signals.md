@@ -1,6 +1,9 @@
-# Kill Unresponsive Process
+# Signals
 
-Unresponsive processes/services ignore the `kill` command. In order to shut down the process immediately use
+## Kill unresponsive process
+
+An unresponsive processe/service ignores the `kill` command. 
+In order to shut down the process immediately use
 
 ```bash
 kill -9 PID
