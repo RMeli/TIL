@@ -31,7 +31,7 @@ nav:
     - 'conda': python/conda.md
     - 'MDAnalysis': python/mdanalysis.md
   - 'Tools':
-    - '`rsync`': tools/rsync.md
+    - 'rsync': tools/rsync.md
 theme:
   name: material
   language: en
