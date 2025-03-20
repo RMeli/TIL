@@ -46,4 +46,39 @@ Typically, the file is stored under `~/.config/git/ignore`. To check if the glob
 git config --get core.excludesfile
 ```
 
+## Conditional configuration
+
+`git` supports [conditional configurations] to include configurations based on conditions.
+A common use-case is to have different configurations for work and personal repositories.
+
+
+!!! example "Separate work and personal configurations"
+
+    If work repositories are under `~/git/work` and personal repositories are under `~/git/oss`,
+    the following configuration can be used:
+
+    ```ini
+    [includeIf "gitdir:~/git/work/"]
+        path = ~/git/work/.config
+    [includeIf "gitdir:~/git/oss/"]
+        path = ~/git/oss/.config
+    ```
+    === "`~/git/work/.config`"
+
+        ```ini
+        [user]
+            name = John Doe
+            email = john.doe@work.com
+        ```
+
+    === "`~/git/oss/.config`"
+
+        ```ini
+        [user]
+            name = John Doe
+            email = john.doe@oss.org
+        ```
+
+[conditional configurations]: https://git-scm.com/docs/git-config#_conditional_includes
 [`feature.manyFiles`]: https://www.git-scm.com/docs/git-config/2.25.2#Documentation/git-config.txt-featuremanyFiles
+
