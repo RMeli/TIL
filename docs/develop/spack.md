@@ -2,10 +2,10 @@
 
 ## Testing locally with Spack
 
-The [Spack](https://spack.io) package manager is written in Python, therefore it can be used interactively from a Python
+The [Spack] package manager is written in Python, therefore it can be used interactively from a Python
 shell:
 
-```shell
+```console
 > spack python
 ```
 
@@ -31,8 +31,6 @@ sc["fftw-api"].libs.ld_flags
 sc["fftw-api"].headers
 ```
 
-[Spack]: https://spack.io
-[Spack spec]: https://spack.readthedocs.io/en/latest/packaging_guide.html#spack-specs
 
 ## Conflicts
 
@@ -45,3 +43,17 @@ conflicts("+cuda", when="+rocm")
 ```
 
 The first option is cleaner, shorter, and less asymmetric.
+
+## Ccache
+
+To use [Ccache] (compiler cache) with [Spack], one can set the following in `~/.spack/config.yaml`
+(or [Spack]'s default `etc/spack/config.yaml`):
+
+```yaml
+config:
+    ccache: true
+```
+
+[Ccache]: https://ccache.dev/
+[Spack]: https://spack.io
+[Spack spec]: https://spack.readthedocs.io/en/latest/packaging_guide.html#spack-specs
