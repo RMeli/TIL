@@ -1,5 +1,15 @@
 # CPU affinity
 
+## List running threads and their CPU
+
+To see which core each thread of a given application is running on, one can use the following command:
+
+```bash
+for i in $(pgrep APPLICATION); do ps -mo pid,tid,fname,user,psr -p $i; done
+```
+
+PSR is the processor that process is currently assigned to.
+
 ## Print affinity masks
 
 An affinity mask is a bitmask where indices correspond to logical processors.
