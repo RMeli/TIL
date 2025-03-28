@@ -338,6 +338,12 @@ export OMP_DISPLAY_AFFINITY=TRUE
     level 1 thread 0x400041fac900 affinity 1-8
     ```
 
+The following could be a better setting for printing out the affinity:
+
+```bash
+export OMP_AFFINITY_FORMAT="host=%H, pid=%P, thread_num=%n, thread affinity=%A"
+```
+
 ## Determine current CPU
 
 ```c
