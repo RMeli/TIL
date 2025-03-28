@@ -1,5 +1,9 @@
 # `git`
 
+## Worktrees
+
+[`git worktree`] allows to have multiple working directories for a single repository.
+
 ## Cherrypicking changes
 
 `git add` allows to interactively select hunks to stage form different files:
@@ -81,4 +85,4 @@ A common use-case is to have different configurations for work and personal repo
 
 [conditional configurations]: https://git-scm.com/docs/git-config#_conditional_includes
 [`feature.manyFiles`]: https://www.git-scm.com/docs/git-config/2.25.2#Documentation/git-config.txt-featuremanyFiles
-
+[`git worktree`]: https://git-scm.com/docs/git-worktree
