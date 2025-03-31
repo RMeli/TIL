@@ -60,12 +60,30 @@ git config --global alias.<ALIAS> <COMMAND>
 
 `git` supports signing commits with [GPG] keys.
 
+??? example "Create GPG keys"
 
-```
-git config gpg.format ssh
-git config user.signingKey ~/.ssh/<KEY>
+    ```bash
+    gpg --default-new-key-algo rsa4096 --gen-key
+    gpg --armor --export <KEY_ID> # (1)!
+    ```
+
+    1. Export public key. This can be used to add the key to GitHub, etc.
+
+??? example "List available GPG keys"
+
+    ```bash
+    gpg --list-secret-keys --keyid-format=long
+    ```
+
+```bash
+git config --global --unset gpg.format # (1)!
+git config --global user.signingkey 3AA5C34371567BD2
 ```
 
+1. One could use different key formats, such as SSH keys. Here we want to use [GPG] keys.
+
+Signing keys can also be added to specific configurations or repositories.
+See [Conditional configuration](#conditional-configuration) for separate work and personal configurations.
 
 ### Signoff commits
 
