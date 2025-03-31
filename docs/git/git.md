@@ -2,7 +2,104 @@
 
 ## Worktrees
 
-[`git worktree`] allows to have multiple working directories for a single repository.
+[`git worktree`](https://git-scm.com/docs/git-worktree) allows to have multiple working directories for a single repository.
+A worktree is the same as a normal repository, with the caviet that it is not possible to checkeout the same branch in multiple worktrees.
+
+This is useful for working on multiple features in parallel, and avoids the need to stash changes or create multiple clones of the repository.
+
+### Create a new worktree
+
+```bash
+git worktree add -b <BRANCH> <PATH>
+```
+
+### Convention
+
+Clone the repository as `<REPO>@<DEFAULT_BRANCH>` and create worktrees for features as `<REPO>@<FEATURE_BRANCH>`.
+This is my own convention and is not a standard.
+
+## Aliases
+
+`git` allows to create aliases for common commands.
+
+Aliases can be created in the global configuration as follows:
+
+```bash
+git config --global alias.<ALIAS> <COMMAND>
+```
+
+!!! tip "My configuration"
+    
+    ```ini
+    [alias]
+        aa = add --all
+        co = checkout
+        cob = checkout -b
+        cs = commit -signed --signoff
+        discard = reset HEAD --hard
+        fp = push --force-with-lease
+        lol = log --graph --decorate --pretty=oneline --abbrev-commit
+        lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+        pr = "!f() { git fetch --force origin pull/$1/head:pr-$1; }; f"
+        ps = push --signed
+        root = rev-parse --show-toplevel
+        st = status
+        stag = tag -l --sort=v:refname
+        uncommit = reset --soft HEAD^
+        unstage = reset HEAD --
+        wt = worktree
+    ```
+
+    ??? info "`--force-with-lease`"
+    
+        `--force-with-lease` is a safer alternative to `--force` that does not overwrite changes on the remote branch.
+
+## Identity
+
+### Signing commits
+
+`git` supports signing commits with [GPG] keys.
+
+
+```
+git config gpg.format ssh
+git config user.signingKey ~/.ssh/<KEY>
+```
+
+
+### Signoff commits
+
+`git commit` supports the `--signoff` option to add a signoff line to the commit message.
+
+This is useful to indicate that the author has the right to submit the code.
+
+```bash
+git commit --signoff
+```
+
+## Bisection
+
+`git bisect` allows to find the commit that introduced a bug by performing a binary search.
+
+To starti bisecting, use:
+
+```bash
+git bisect start
+```
+
+Then mark the current commit as bad:
+
+```bash
+git bisect bad
+```
+and mark a known good commit:
+
+```bash
+git bisect good <COMMIT>
+```
+
+`git bisect` will then checkout a commit in the middle of the range and ask to mark it as good or bad.
+This process is repeated until the commit that introduced the bug is found.
 
 ## Cherrypicking changes
 
@@ -16,7 +113,8 @@ This allows to create atomic commits by interactively selecting changes to be st
 
 ## Large Repositories
 
-When cloning large repositories, setting [`feature.manyFiles`] enables configuration options to improve performance:
+When cloning large repositories,
+setting [`feature.manyFiles`](https://www.git-scm.com/docs/git-config/2.25.2#Documentation/git-config.txt-featuremanyFiles) enables configuration options to improve performance:
 
 ```bash
 git clone -c feature.manyFiles=true <REPO>
@@ -84,5 +182,5 @@ A common use-case is to have different configurations for work and personal repo
         ```
 
 [conditional configurations]: https://git-scm.com/docs/git-config#_conditional_includes
-[`feature.manyFiles`]: https://www.git-scm.com/docs/git-config/2.25.2#Documentation/git-config.txt-featuremanyFiles
-[`git worktree`]: https://git-scm.com/docs/git-worktree
+[feature.manyFiles]: https://www.git-scm.com/docs/git-config/2.25.2#Documentation/git-config.txt-featuremanyFiles
+[GPG]: https://gnupg.org
