@@ -148,6 +148,14 @@ Typically, the file is stored under `~/.config/git/ignore`. To check if the glob
 git config --get core.excludesfile
 ```
 
+??? tip "Excluded files"
+
+    ```
+    .envrc
+    .vscode/
+    core*
+    ```
+
 ## Conditional configuration
 
 `git` supports [conditional configurations] to include configurations based on conditions.
