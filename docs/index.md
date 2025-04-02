@@ -9,6 +9,7 @@ Others might be less obvious and more interesting.
 
 * [bat]: `cat` clone
 * [diff-so-fancy]: diff enhancer
+* [direnv]: environment switcher
 * [duf]: disk usage utility
 * [eza]: `ls` clone
 * [fzf]: fuzzy finder
@@ -17,6 +18,7 @@ Others might be less obvious and more interesting.
 
 [bat]: https://github.com/sharkdp/bat
 [diff-so-fancy]: https://github.com/so-fancy/diff-so-fancy
+[direnv]: https://direnv.net/
 [duf]: https://github.com/muesli/duf
 [eza]: https://github.com/eza-community/eza
 [fzf]: https://github.com/junegunn/fzf
