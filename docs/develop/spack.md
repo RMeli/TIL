@@ -128,6 +128,9 @@ direnv allow "${SPACK_BUILD_DIR}"
 # Be friendly to LSPs
 mkdir -p "${SPACK_SOURCE_DIR}/build"
 ln -sf "${SPACK_BUILD_DIR}/compile_commands.json" "${SPACK_SOURCE_DIR}/build/compile_commands.json" # (5)!
+
+# Remove broken symlinks (from previous builds)
+find "${SPACK_SOURCE_DIR}" -xtype l -delete
 	
 pushd "${SPACK_SOURCE_DIR}" || return
 ```
