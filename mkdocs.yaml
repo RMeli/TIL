@@ -24,7 +24,7 @@ nav:
     - 'git': git/git.md
     - 'GitHub': git/github.md
   - 'Linux':
-    - 'Signals': linux/signals.md
+    - 'Commands': linux/commands.md
   - 'Networking':
     - 'SSH': networking/ssh.md
   - 'Programming':

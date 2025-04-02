@@ -1,4 +1,4 @@
-# Signals
+# Useful commands
 
 ## Kill unresponsive process
 
@@ -18,3 +18,9 @@ kill -SIGKILL PID
 ```
 
 The `kill -SIGKILL` command bypasses the standard shutdown routine and unsaved data will be lost.
+
+## Remove broken symbolic links
+
+```bash
+find <DIR> -xtype l -delete
+```
