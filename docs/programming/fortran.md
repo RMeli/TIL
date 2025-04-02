@@ -25,4 +25,26 @@ integer, external :: numroc
 ??? "`external` statement"
     The `external` statement specifies procedures or dummy procedures as external, and allows their symbolic names to be used as actual arguments.
 
+## Busy Wait
+
+```fortran
+subroutine busywait(wait_time)
+   real(kind=dp), intent(in) :: wait_time ! (1)!
+
+   real(kind=dp) :: t_start, t_now, elapsed_time
+
+   elapsed_time = 0.0_dp
+
+   call cpu_time(t_start)
+
+   do while (elapsed_time < wait_time)
+      call cpu_time(t_now)
+      elapsed_time = t_now - t_start
+   end do
+
+end subroutine
+```
+
+1. Time to wait in seconds.
+
 [RMeli/fortran-playground]: https://github.com/RMeli/fortran-playground
