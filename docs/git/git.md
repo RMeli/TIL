@@ -171,7 +171,9 @@ git config --get core.excludesfile
     ```
     .envrc
     .vscode/
+    .idea/
     core*
+    .null-ls_*
     ```
 
 ## Conditional configuration
