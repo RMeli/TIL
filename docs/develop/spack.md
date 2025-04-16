@@ -54,6 +54,82 @@ config:
     ccache: true
 ```
 
+## Spack views for development tools
+
+[Spack environment views] are a way to create a single directory that contains all the dependencies of a package.
+This is useful for easily installing and accessing development tools (such as editors, languages, etc.).
+
+```yaml
+spack:
+  specs:
+    - <SPEC1>
+    - <SPEC2>
+  concretizer:
+    unify: true
+  view:
+    default:
+      root: <VIEW_PATH>
+```
+
+??? example "Development tools"
+
+    ```yaml
+    spack:
+      specs:
+        - libtree
+        - tmux
+        - direnv
+        - htop +hwloc
+        - neovim
+        - llvm
+        - ripgrep
+        - fzf
+        - bat
+        - ruby
+        - go
+        - rust +dev ~docs
+        - node-js
+        - npm
+        - ccache
+        - python
+        - py-uv
+      concretizer:
+        unify: true
+      packages:
+        python:
+          require:
+            - "@3.11"
+        llvm:
+          require: 
+            - "targets=x86" # Select one target to speedup compilation, doen't matter which one
+            - "@18"
+            - "~gold"
+            - "~libomptarget"
+      view:
+        default:
+	  root: ~/aarch64-dev.view
+          link: roots
+    ```
+
+!!! warning "Views and the number of symlinks"
+
+    Views can create a large number of symlinks, which can cause issues with some file systems.
+
+    ??? example "Count the number of symlinks"
+
+        ```bash
+        find <PATH> -type l | wc -l
+        ```
+
+   To avoid creating too many symlinks, one can use `link: roots`:
+
+   ```yaml
+   view:
+     default:
+       root: ~/aarch64-dev.view
+       link: roots
+   ```
+
 ## Use Spack to install dependencies and run CMake
 
 The following script can be used to install dependencies and run CMake for a given develop spec:
@@ -149,3 +225,4 @@ pushd "${SPACK_SOURCE_DIR}" || return
 [Spack]: https://spack.io
 [Spack spec]: https://spack.readthedocs.io/en/latest/packaging_guide.html#spack-specs
 [direnv]: https://direnv.net/
+[Spack environment views]: https://spack.readthedocs.io/en/latest/environments.html#environment-views
