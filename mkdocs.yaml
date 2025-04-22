@@ -20,6 +20,7 @@ nav:
     - 'VSCode': editors/vscode.md
   - 'HPC':
     - 'Affinity': hpc/affinity.md
+    - 'Slurm': hpc/slurm.md
   - 'git':
     - 'git': git/git.md
     - 'GitHub': git/github.md
