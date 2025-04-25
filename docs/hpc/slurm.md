@@ -14,4 +14,16 @@ scontrol show nods | grep Gres | sort -u
 
 This command can be used to check for misconfigures nodes.
 
+### Check reservations
+
+```bash
+scontrol show res
+```
+
+To run on a serervations use the `--reservation` flag:
+
+```bash
+srun --reservation=<reservation_name> <command>
+```
+
 [Slurm]: https://slurm.schedmd.com/
