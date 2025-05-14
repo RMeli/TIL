@@ -1,8 +1,8 @@
 site_name: Rocco Meli's TIL
 site_url: https://eth-cscs.github.io/
 repo_url: https://github.com/RMeli/TIL
-extra_css:
-  - stylesheets/extra.css
+# extra_css:
+#   - stylesheets/cscs.css
 plugins:
   - search:
       pipeline:
@@ -27,6 +27,7 @@ nav:
     - 'GitHub': git/github.md
   - 'Linux':
     - 'Commands': linux/commands.md
+    - 'Troubleshooting': linux/troubleshooting.md
   - 'Networking':
     - 'SSH': networking/ssh.md
   - 'Programming':
