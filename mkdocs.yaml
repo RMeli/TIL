@@ -20,6 +20,7 @@ nav:
     - 'VSCode': editors/vscode.md
   - 'HPC':
     - 'Affinity': hpc/affinity.md
+    - 'MPI': hpc/mpi.md
   - 'git':
     - 'git': git/git.md
     - 'GitHub': git/github.md
