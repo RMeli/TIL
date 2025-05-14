@@ -21,6 +21,7 @@ nav:
   - 'HPC':
     - 'Affinity': hpc/affinity.md
     - 'MPI': hpc/mpi.md
+    - 'Slurm': hpc/slurm.md
   - 'git':
     - 'git': git/git.md
     - 'GitHub': git/github.md
