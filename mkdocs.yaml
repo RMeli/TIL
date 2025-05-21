@@ -20,6 +20,7 @@ nav:
     - 'VSCode': editors/vscode.md
   - 'HPC':
     - 'Affinity': hpc/affinity.md
+    - 'HPC Clusters': hpc/cluster.md
     - 'MPI': hpc/mpi.md
     - 'Slurm': hpc/slurm.md
   - 'git':
