@@ -20,6 +20,7 @@ nav:
     - 'VSCode': editors/vscode.md
   - 'HPC':
     - 'Affinity': hpc/affinity.md
+    - 'HPC Clusters': hpc/cluster.md
     - 'MPI': hpc/mpi.md
     - 'Slurm': hpc/slurm.md
   - 'git':
@@ -27,6 +28,7 @@ nav:
     - 'GitHub': git/github.md
   - 'Linux':
     - 'Commands': linux/commands.md
+    - 'Configuration': linux/config.md
     - 'Troubleshooting': linux/troubleshooting.md
   - 'Networking':
     - 'SSH': networking/ssh.md
