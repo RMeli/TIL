@@ -209,6 +209,29 @@ A common use-case is to have different configurations for work and personal repo
             email = john.doe@oss.org
         ```
 
+## Clean up
+
+Some workflows produce a lot of temporary files that are not tracked by `git`.
+It is sometimes useful to clean up these files to have the repository in a clean state.
+To clean up untracked files, use:
+
+```bash
+git clean -fd
+```
+
+The command above will remove all untracked files and directories.
+
+!!! danger
+
+    Be careful with `git clean -fd` as it will remove all untracked files and directories.
+    It is recommended to perform a dry run with
+
+    ```
+    git clean -nfd
+    ```
+
+    to see what files will be removed.
+
 [conditional configurations]: https://git-scm.com/docs/git-config#_conditional_includes
 [feature.manyFiles]: https://www.git-scm.com/docs/git-config/2.25.2#Documentation/git-config.txt-featuremanyFiles
 [GPG]: https://gnupg.org
