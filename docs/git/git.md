@@ -119,6 +119,42 @@ git bisect good <COMMIT>
 `git bisect` will then checkout a commit in the middle of the range and ask to mark it as good or bad.
 This process is repeated until the commit that introduced the bug is found.
 
+### Correct a bisection mistake
+
+If a commit is marked as good or bad by mistake, it can be corrected with the following steps:
+
+1. Save the current bisection log to a file
+   ```bash
+   git bisect log > bisect.log
+   ```
+
+2. Reset the bisection state
+   ```bash
+   git bisect reset
+   ```
+
+3. Amend the bisection log file to remove the incorrect entry
+
+4. Restart the bisection with the corrected log
+   ```bash
+   git bisect replay bisect.log
+   ```
+
+??? example "`git bisect` log"
+
+    ```text
+    git bisect start
+    # status: waiting for both good and bad commits
+    # good: [0128dc24c6d018b61ceaac080640014e1d5ec344] Update README
+    git bisect good 0128dc24c6d018b61ceaac080640014e1d5ec344
+    # bad: [25935e1a7e022ede9fd71bd86dcbaa7a3f1846b7] Merge pull request #85 from gdonval/fix-malloc
+    git bisect bad 25935e1a7e022ede9fd71bd86dcbaa7a3f1846b7
+    # bad: [637a6e5f2953263d4f05574c8d6037356a81b9ea] Merge pull request #65 from Reference-ScaLAPACK/weslleyspereira-fix-cmake-requirements
+    git bisect bad 637a6e5f2953263d4f05574c8d6037356a81b9ea
+    # good: [681a6cf436360a3f5121f224a026150795283e56] Merge pull request #56 from weslleyspereira/try-CI
+    git bisect good 681a6cf436360a3f5121f224a026150795283e56
+    ```
+
 ## Cherrypicking changes
 
 `git add` allows to interactively select hunks to stage form different files:
