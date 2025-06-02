@@ -13,10 +13,10 @@ This is useful for working on multiple features in parallel, and avoids the need
 git worktree add -b <BRANCH> <PATH>
 ```
 
-### Convention
+!!! tip "Convention"
 
-Clone the repository as `<REPO>@<DEFAULT_BRANCH>` and create worktrees for features as `<REPO>@<FEATURE_BRANCH>`.
-This is my own convention and is not a standard.
+    Clone the repository as `<REPO>.<DEFAULT_BRANCH>` and create worktrees for features as `<REPO>.<FEATURE_BRANCH>`.
+    This is my own convention and it is not a standard.
 
 ## Aliases
 
@@ -275,6 +275,23 @@ The command above will remove all untracked files and directories.
     ```
 
     to see what files will be removed.
+
+## Revert changes from a specific file
+
+The `git revert` command can be used to revert a specific commit.
+However, this reverts all the files changed in that commit.
+To revert changes from a specific file, use the `git checkout` command:
+
+```bash
+git checkout <COMMIT>~ -- <FILE>
+```
+
+!!! note "`~`"
+
+    `<rev>~[<n>]` refers to the `<n>`-th generation ancestor of `<rev>`.
+
+To revert the changes introduced by a specific commit `<COMMIT>`,
+we checkout the file from the commit before it (`<COMMIT>~`).
 
 [conditional configurations]: https://git-scm.com/docs/git-config#_conditional_includes
 [feature.manyFiles]: https://www.git-scm.com/docs/git-config/2.25.2#Documentation/git-config.txt-featuremanyFiles
