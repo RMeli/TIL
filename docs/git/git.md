@@ -155,6 +155,14 @@ If a commit is marked as good or bad by mistake, it can be corrected with the fo
     git bisect good 681a6cf436360a3f5121f224a026150795283e56
     ```
 
+!!! tip
+
+    One could add the following [git alias](git.md/#aliases) to undo the last action automatically:
+
+    ```
+    alias bisect-undo='git bisect log | head -n -2 > /tmp/git-fixed-bisect.txt && git bisect reset && git bisect replay /tmp/git-fixed-bisect.txt && rm /tmp/git-fixed-bisect.txt'
+    ```
+
 ## Cherrypicking changes
 
 `git add` allows to interactively select hunks to stage form different files:
