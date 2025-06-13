@@ -24,3 +24,19 @@ The `kill -SIGKILL` command bypasses the standard shutdown routine and unsaved d
 ```bash
 find <DIR> -xtype l -delete
 ```
+
+## Sycalls ID to name mapping
+
+The following command shows the mapping of syscall IDs to their names:
+
+```bash
+ausyscall --dump
+```
+
+??? note "Installation"
+
+    `ausyscall` is part of the `audit` package.
+
+    ```bash
+    sudo apt install auditd
+    ```
