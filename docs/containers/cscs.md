@@ -81,7 +81,7 @@ The [container engine] will inject `xpmem` and `libfabric` into the container at
 
     ```bash
     podman build -f Dockerfile -t osu:latest .
-    enroot import osu.sqfs podman://osu:latest # (1)!
+    enroot import -o osu.sqfs podman://osu:latest # (1)!
     ```
 
     1. Import the container with [enroot] for running with the [container engine].
