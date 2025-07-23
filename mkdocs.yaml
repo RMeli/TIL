@@ -15,6 +15,7 @@ nav:
     - 'RDKit': cheminformatics/rdkit.md
   - 'Containers':
     - 'podman': containers/podman.md
+    - 'Containers at CSCS': containers/cscs.md
   - 'Development':
     - 'CMake': develop/cmake.md
     - 'Spack': develop/spack.md
@@ -47,6 +48,7 @@ theme:
   language: en
   features:
     - content.code.copy
+    - content.code.select
     - content.action.edit
     - navigation.indexes
     - search.share
