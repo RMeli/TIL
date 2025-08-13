@@ -113,7 +113,7 @@ The [container engine] will inject `xpmem` and `libfabric` into the container at
 #### Daint (GH200)
 
 ```Dockerfile
-FROM docker.io/nvidia/cuda:12.8.1-devel-ubuntu24.04
+FROM docker.io/nvidia/cuda:12.8.1-devel-ubuntu24.04 # (1)!
 
 ARG libfabric_version=1.22.0
 ARG mpi_version=4.3.1
@@ -123,7 +123,7 @@ RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential ca-certificates automake autoconf libtool make gdb strace wget python3 git gfortran \
     && rm -rf /var/lib/apt/lists/*
 
-RUN echo '/usr/local/cuda/lib64/stubs' > /etc/ld.so.conf.d/cuda_stubs.conf && ldconfig
+RUN echo '/usr/local/cuda/lib64/stubs' > /etc/ld.so.conf.d/cuda_stubs.conf && ldconfig # (2)!
 
 RUN git clone https://github.com/hpc/xpmem \
     && cd xpmem/lib \
@@ -139,7 +139,7 @@ RUN wget -q https://github.com/ofiwg/libfabric/archive/v${libfabric_version}.tar
     && tar xf v${libfabric_version}.tar.gz \
     && cd libfabric-${libfabric_version} \
     && ./autogen.sh \
-    && ./configure --prefix=/usr --with-cuda=/usr/local/cuda \
+    && ./configure --prefix=/usr --with-cuda=/usr/local/cuda \ # (3)!
     && make -j$(nproc) \
     && make install \
     && ldconfig \
@@ -150,7 +150,7 @@ RUN wget -q https://www.mpich.org/static/downloads/${mpi_version}/mpich-${mpi_ve
     && tar xf mpich-${mpi_version}.tar.gz \
     && cd mpich-${mpi_version} \
     && ./autogen.sh \
-    && ./configure --prefix=/usr --enable-fast=O3,ndebug --enable-fortran --enable-cxx --with-device=ch4:ofi --with-libfabric=/usr --with-xpmem=/usr --with-cuda=/usr/local/cuda \
+    && ./configure --prefix=/usr --enable-fast=O3,ndebug --enable-fortran --enable-cxx --with-device=ch4:ofi --with-libfabric=/usr --with-xpmem=/usr --with-cuda=/usr/local/cuda \ # (4)!
     && make -j$(nproc) \
     && make install \
     && ldconfig \
@@ -168,6 +168,13 @@ RUN wget -q http://mvapich.cse.ohio-state.edu/download/mvapich/osu-micro-benchma
 
 RUN rm /etc/ld.so.conf.d/cuda_stubs.conf && ldconfig
 ```
+
+1. Use the [NVIDIA CUDA container](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/cuda) as base image.
+2. Add `/usr/local/cuda/lib64/stubs` as default linking directory during the build process.
+   This is required because at build time no CUDA driver/GPU is available.
+   This path is removed at the end of the build process.
+3. Build `libfabric` with CUDA support.
+4. Build `MPICH` with CUDA support.
 
 ??? "Building and running the container"
    
