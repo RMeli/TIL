@@ -101,7 +101,7 @@ The [container engine] will inject `xpmem` and `libfabric` into the container at
     annotations.com.hooks.cxi.enabled = 'true' # (1)!
     ```
 
-    1. [CXI hook](https://docs.cscs.ch/software/container-engine/resource-hook/#hpe-slingshot-interconnect).
+    1. [CXI hook].
 
     Run the [OSU micro-benchmarks]:
 
@@ -198,9 +198,9 @@ RUN rm /etc/ld.so.conf.d/cuda_stubs.conf && ldconfig
     annotations.com.hooks.cxi.enabled = 'true' # (1)!
     ```
 
-    1. [CXI hook](https://docs.cscs.ch/software/container-engine/resource-hook/#hpe-slingshot-interconnect).
+    1. [CXI hook].
 
-    Run the [OSU micro-benchmarks]:
+    Run the [OSU micro-benchmarks] device-to-device (`D D`) bandwidth test:
 
     ```bash
     srun --mpi=pmi2 -p debug -N2 -n2 --environment=$PWD/osu.toml \
@@ -210,7 +210,14 @@ RUN rm /etc/ld.so.conf.d/cuda_stubs.conf && ldconfig
 
     1. Enables GPU direct RDMA support in the provider.
        Equivalent to Cray-MPICH `MPICH_GPU_SUPPORT_ENABLED=1`.
+    
+    Run the [OSU micro-benchmarks] host-to-host (`H H`) bandwidth test:
+
+    ```bash
+    srun --mpi=pmi2 -p debug -N2 -n2 --environment=$PWD/osu.toml \
+      /usr/local/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_bw H H
+    ```
 
 [enroot]: https://github.com/NVIDIA/enroot
 [container engine]: https://docs.cscs.ch/software/container-engine/
-
+[CXI hook]: https://docs.cscs.ch/software/container-engine/resource-hook/#hpe-slingshot-interconnect
