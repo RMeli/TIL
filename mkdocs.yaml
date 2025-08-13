@@ -32,7 +32,6 @@ nav:
   - 'Linux':
     - 'Commands': linux/commands.md
     - 'Configuration': linux/config.md
-    - 'Troubleshooting': linux/troubleshooting.md
   - 'Networking':
     - 'SSH': networking/ssh.md
   - 'Programming':

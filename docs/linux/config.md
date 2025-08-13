@@ -1,14 +1,16 @@
 # Configuration
 
-## Message of the day
+## OEM Installation
 
-The contents of `/etc/motd` are displayed after a successful login,
-just before the login shell is executed.
+Since Ubuntu `24.04`, the OEM installer doesn't show up in the GRUB menu by default.
 
-### Ubuntu
+From the live USB, you can install the OEM version by pressing using the following:
 
-Ubuntu introduced the `update-motd` framework, by which the `motd` is
-dynamically assembled from a collection of scripts at login.
+```bash
+sudo mkdir -p /usr/share/desktop-provision
+sudo bash -c 'echo "mode: oem" > /usr/share/desktop-provision/whitelabel.yaml' # (1)!
+/snap/bin/ubuntu-desktop-bootstrap --try-or-install # (2)!
+```
 
-Executable scripts in `/etc/update-motd.d/*` are executed by `pam_motd` as the root user at each login,
-and this information is concatenated in `/var/run/motd`.
+1. Creates a configuration file that tells the installer to run in OEM mode.
+2. Runs the installer in OEM mode, allowing you to set up the system for end users.
