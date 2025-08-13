@@ -5,16 +5,31 @@ It's a mix of code snippets, tricks, and tips that I've picked up over the years
 Some might be ovious, but they are here as a quick reference. 
 Others might be less obvious and more interesting.
 
-## Useful tools (not documented)
+## Useful tools
+
+### Work
+
+* [direnv]: environment switcher
+* [tmux]: terminal multiplexer
+
+### Working with files
 
 * [bat]: `cat` clone
 * [diff-so-fancy]: diff enhancer
-* [direnv]: environment switcher
-* [duf]: disk usage utility
 * [eza]: `ls` clone
 * [fzf]: fuzzy finder
+* [jq]: command-line JSON processor
 * [nnn]: terminal file manager
-* [tmux]: terminal multiplexer
+
+### Source control
+
+* [git]: distributed version control system
+* [gh]: GitHub CLI
+
+### Monitoring
+
+* [duf]: disk usage utility
+* [btop]: resource monitor
 
 [bat]: https://github.com/sharkdp/bat
 [diff-so-fancy]: https://github.com/so-fancy/diff-so-fancy
@@ -24,3 +39,7 @@ Others might be less obvious and more interesting.
 [fzf]: https://github.com/junegunn/fzf
 [nnn]: https://github.com/jarun/nnn
 [tmux]: https://github.com/tmux/tmux
+[btop]: https://github.com/aristocratos/btop
+[git]: https://git-scm.com/
+[gh]: https://cli.github.com/
+[jq]: https://jqlang.org

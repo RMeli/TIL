@@ -1,5 +1,13 @@
 # C++
 
+## Libraries
+
+List of random interesting C/C++ libraries:
+
+* [cpptrace]: simple, portable, and self-contained stacktrace library for C++11 and newer
+* [GSL]: guidelines support library
+* [zdys]: fast and lightweight x86/x86-64 disassembler and code generation library
+
 ## Least recently used cache (LRU cache)
 
 Python provides a decorator to wrap a function with a memoizing callable that
@@ -101,3 +109,7 @@ auto cached_f = lru_cache(f, 100);
 ```
 
 [^1]: Functional Programming in C++, Ivan Čukić, Manning Publications Co., ISBN 9781617293818.
+
+[cpptrace]: https://github.com/jeremy-rifkin/cpptrace
+[zdys]: https://zydis.re
+[GSL]: https://github.com/microsoft/GSL?tab=readme-ov-file
