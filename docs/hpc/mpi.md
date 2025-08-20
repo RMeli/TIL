@@ -1,5 +1,38 @@
 # MPI
 
+## Librabric providers
+
+`fi_info` is an utility program to query for available fabric interfaces.
+
+### CXI provider
+
+The CXI provider enables libfabric on Cray's Slingshot network.
+
+The following checks if [CXI] is available:
+
+```bash
+fi_info -p cxi
+```
+
+??? example "Check for CXI provider"
+
+    CXI is available (for example by enabling the CXI hook in a container):
+    ```console
+    $ fi_info -p cxi
+    provider: cxi
+        fabric: cxi
+        domain: cxi0
+        version: 0.1
+        type: FI_EP_RDM
+        protocol: FI_PROTO_CXI
+    ```
+
+    CXI is not available:
+    ```console
+    $ fi_info -p cxi
+    fi_getinfo: -61 (No data available)
+    ```
+
 ## MPI Environment Variables
 
 ### Environment variables set for MPI applications
@@ -42,3 +75,4 @@ for example to set a file name for each process.
 
 [Slurm]: https://slurm.schedmd.com/
 [OpenMPI]: https://www.open-mpi.org/
+[CXI]: https://ofiwg.github.io/libfabric/v2.2.0/man/fi_cxi.7.html
