@@ -13,8 +13,8 @@ nav:
   - 'Cheminformatics':
     - 'Open Babel': cheminformatics/openbabel.md
     - 'RDKit': cheminformatics/rdkit.md
-  - 'Containers':
-    - 'podman': containers/podman.md
+  - 'Containers': 
+    - 'Containers': containers/containers.md
     - 'Containers at CSCS': containers/cscs.md
   - 'Development':
     - 'CMake': develop/cmake.md
