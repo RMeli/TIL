@@ -23,6 +23,25 @@ CMAKE_<LANG>_COMPILER_LAUNCHER=ccache
 
 Supported languages are the following: `C`, `CXX`, `Fortran`, `CUDA`, `HIP`.
 
+!!! warning
+
+    Some packages with compiler wrappers (e.g., Kokkos) may not work correctly with Cache enabled.
+
+
+    ??? Compiling Kokkos projects with CCache
+
+        Compiling Kokkos-based projects with CCache can result in the following error:
+
+        ```
+        g++: error: unrecognized command-line option '-Wext-lambda-captures-this'
+        ```
+
+        Unset the `CMAKE_<LANG>_COMPILER_LAUNCHER` variable in such cases:
+
+        ```bash
+        unset CMAKE_<LANG>_COMPILER_LAUNCHER
+        ```
+
 ### Project-wide setting
 
 For a project-wide setting, one can add the following to the `CMakeLists.txt` file:

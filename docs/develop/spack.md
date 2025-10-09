@@ -54,6 +54,10 @@ config:
     ccache: true
 ```
 
+! warning
+
+    Some packages with compiler wrappers (e.g., Kokkos) may not work correctly with Cache enabled.
+
 ## Spack views for development tools
 
 [Spack environment views] are a way to create a single directory that contains all the dependencies of a package.
