@@ -38,7 +38,7 @@ nav:
     - 'C++': programming/cpp.md
     - 'Fortran': programming/fortran.md
   - 'Python':
-    - 'conda': python/conda.md
+    - 'Package Managers': python/package-managers.md
     - 'MDAnalysis': python/mdanalysis.md
   - 'Tools':
     - 'rsync': tools/rsync.md
