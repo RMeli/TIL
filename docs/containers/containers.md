@@ -1,9 +1,26 @@
-# podman
+# Containers
+
+## Install missing packages
+
+If some packages are missing from the container, it is possible to install them
+with the following workaround:
+
+```bash
+apt update && apt download <PACKAGE> # (1)!
+dpkg -x <PACKAGE>.deb / # (2)!
+```
+
+1. Download the `.deb` package file for `<PACKAGE>`.
+2. Extract the contents of the package into the container.
+
+This is useful in situations where `apt install` can't be used.
+
+## podman
 
 * [podman]
 * [NVIDIA Container Toolkit]
 
-## GPU support
+# GPU support
 
 The [NVIDIA Container Toolkit] `nvidia-ctk` needs to be installed.
 In order to run a `podman` container with GPU support, one needs to

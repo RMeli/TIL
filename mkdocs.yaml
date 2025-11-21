@@ -13,8 +13,8 @@ nav:
   - 'Cheminformatics':
     - 'Open Babel': cheminformatics/openbabel.md
     - 'RDKit': cheminformatics/rdkit.md
-  - 'Containers':
-    - 'podman': containers/podman.md
+  - 'Containers': 
+    - 'Containers': containers/containers.md
     - 'Containers at CSCS': containers/cscs.md
   - 'Development':
     - 'CMake': develop/cmake.md
@@ -39,7 +39,7 @@ nav:
     - 'C++': programming/cpp.md
     - 'Fortran': programming/fortran.md
   - 'Python':
-    - 'conda': python/conda.md
+    - 'Package Managers': python/package-managers.md
     - 'MDAnalysis': python/mdanalysis.md
   - 'Tools':
     - 'rsync': tools/rsync.md
