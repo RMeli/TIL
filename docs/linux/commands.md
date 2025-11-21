@@ -19,6 +19,10 @@ kill -SIGKILL PID
 
 The `kill -SIGKILL` command bypasses the standard shutdown routine and unsaved data will be lost.
 
+!!! note
+
+    `kill` sends the `SIGTERM` signal by default, which allows the process to terminate gracefully.
+
 ## Remove broken symbolic links
 
 ```bash
