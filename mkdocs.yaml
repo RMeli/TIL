@@ -35,6 +35,7 @@ nav:
   - 'Networking':
     - 'SSH': networking/ssh.md
   - 'Programming':
+    - 'Bash': programming/bash.md
     - 'C++': programming/cpp.md
     - 'Fortran': programming/fortran.md
   - 'Python':
