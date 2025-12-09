@@ -94,7 +94,7 @@ The `-s` option sets the maximum string size, which by default is relatively sma
               └─25528 awk '$1 == "Distribution:" { print $2 }'
         ```
 
-## git-like patches with `diff`
+## git-like patches
 
 The `diff` command can be used to create git-like patches between two files or directories:
 

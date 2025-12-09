@@ -58,6 +58,13 @@ config:
 
     Some packages with compiler wrappers (e.g., Kokkos) may not work correctly with Cache enabled.
 
+## Patches
+
+To generate a patch for a package, one can use the [`diff` command](../linux/commands.md#git-like-patches).
+
+By default, Spack applies patches with `patch -p1`, therefore patches should be
+modified so that file paths start with `a/` and `b/`, followed by the source code root directory.
+
 ## Spack views for development tools
 
 [Spack environment views] are a way to create a single directory that contains all the dependencies of a package.
