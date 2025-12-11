@@ -104,6 +104,12 @@ to include the upstream configuration in the environment.
     [+] alps          v2.0    /user-environment/repos/spack_repo/alps
     [+] builtin       v2.2    /user-environment/repos/spack_repo/builtin
     ```
+## Patches
+
+To generate a patch for a package, one can use the [`diff` command](../linux/commands.md#git-like-patches).
+
+By default, Spack applies patches with `patch -p1`, therefore patches should be
+modified so that file paths start with `a/` and `b/`, followed by the source code root directory.
 
 ## Spack views for development tools
 
