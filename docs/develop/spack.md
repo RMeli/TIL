@@ -58,6 +58,53 @@ config:
 
     Some packages with compiler wrappers (e.g., Kokkos) may not work correctly with Cache enabled.
 
+## Upstream Spack instances and repositories precedence in environments
+
+When using an upstream Spack instance with
+
+```bash
+spack -C /path/to/upstream/config spack <command>
+```
+
+repositories defined in the enviornment have lower precedence than those defined in the upstream Spack instance.
+
+To give precedence to the environment repositories, one can set:
+
+```yaml
+spack:
+  include: ["/path/to/upstream/config"]
+```
+
+to include the upstream configuration in the environment.
+
+??? example "Upstream Spack instance with custom repositories"
+
+    ```yaml
+    spack:
+      specs:
+      - py-metatrain
+      repos:
+        metatensor: ~/git/work/my-spack/spack_repo/metatensor/
+      include: [ /user-environment/config ]
+      view: flase
+      concretizer:
+        unify: true
+    ```
+
+    ```console
+    $ spack -C /user-environment/config/ -e . repo list
+    [+] alps          v2.0    /user-environment/repos/spack_repo/alps
+    [+] builtin       v2.2    /user-environment/repos/spack_repo/builtin
+    [+] metatensor    v2.2    /users/rmeli/git/work/my-spack/spack_repo/metatensor
+    ```
+
+    ```console
+    $ spack -e . repo list
+    [+] metatensor    v2.2    /users/rmeli/git/work/my-spack/spack_repo/metatensor
+    [+] alps          v2.0    /user-environment/repos/spack_repo/alps
+    [+] builtin       v2.2    /user-environment/repos/spack_repo/builtin
+    ```
+
 ## Spack views for development tools
 
 [Spack environment views] are a way to create a single directory that contains all the dependencies of a package.
