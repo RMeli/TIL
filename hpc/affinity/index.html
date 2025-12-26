@@ -1,0 +1,2296 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://eth-cscs.github.io/hpc/affinity/">
+      
+      
+        <link rel="prev" href="../../editors/vscode/">
+      
+      
+        <link rel="next" href="../cluster/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Affinity - Rocco Meli's TIL</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#cpu-affinity" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Rocco Meli&#39;s TIL" class="md-header__button md-logo" aria-label="Rocco Meli's TIL" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Rocco Meli's TIL
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Affinity
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="white" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/RMeli/TIL" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Rocco Meli&#39;s TIL" class="md-nav__button md-logo" aria-label="Rocco Meli's TIL" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Rocco Meli's TIL
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/RMeli/TIL" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TIL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cheminformatics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Cheminformatics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cheminformatics/openbabel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Open Babel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cheminformatics/rdkit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RDKit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Containers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Containers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../containers/containers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Containers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../containers/cscs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Containers at CSCS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../develop/cmake/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CMake
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../develop/spack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Spack
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Editors
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Editors
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../editors/vscode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VSCode
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HPC
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    HPC
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Affinity
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Affinity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#list-running-threads-and-their-cpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        List running threads and their CPU
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#print-affinity-masks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Print affinity masks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Print affinity masks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hwloc-bind" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        hwloc-bind
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slurm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Slurm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openmp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OpenMP
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#determine-current-cpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Determine current CPU
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resources
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HPC Clusters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mpi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../slurm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Slurm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    git
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    git
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../git/git/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    git
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../git/github/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GitHub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Linux
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Networking
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Networking
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../networking/ssh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Programming
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programming/bash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bash
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programming/cpp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C++
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programming/fortran/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fortran
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/package-managers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Package Managers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/mdanalysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MDAnalysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tools
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/rsync/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rsync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#list-running-threads-and-their-cpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        List running threads and their CPU
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#print-affinity-masks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Print affinity masks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Print affinity masks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hwloc-bind" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        hwloc-bind
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slurm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Slurm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openmp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OpenMP
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#determine-current-cpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Determine current CPU
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resources
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    TIL
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="./" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    HPC
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/RMeli/TIL/edit/master/docs/hpc/affinity.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="cpu-affinity">CPU affinity<a class="headerlink" href="#cpu-affinity" title="Permanent link">&para;</a></h1>
+<h2 id="list-running-threads-and-their-cpu">List running threads and their CPU<a class="headerlink" href="#list-running-threads-and-their-cpu" title="Permanent link">&para;</a></h2>
+<p>To see which core each thread of a given application is running on, one can use the following command:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>pgrep<span class="w"> </span>APPLICATION<span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span>ps<span class="w"> </span>-mo<span class="w"> </span>pid,tid,fname,user,psr<span class="w"> </span>-p<span class="w"> </span><span class="nv">$i</span><span class="p">;</span><span class="w"> </span><span class="k">done</span>
+</span></code></pre></div>
+<p>PSR is the processor that process is currently assigned to.</p>
+<h2 id="print-affinity-masks">Print affinity masks<a class="headerlink" href="#print-affinity-masks" title="Permanent link">&para;</a></h2>
+<p>An affinity mask is a bitmask where indices correspond to logical processors.
+The least significant bit corresponds to the first logical processor number on the system,
+while the most significant bit corresponds to the last logical processor number on the system.</p>
+<h3 id="hwloc-bind"><code>hwloc-bind</code><a class="headerlink" href="#hwloc-bind" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>srun<span class="w"> </span><span class="o">[</span>...<span class="o">]</span><span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;printf &quot;%02g:%s\n&quot; ${SLURM_LOCALID} $(hwloc-bind --get --taskset)&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort
+</span></code></pre></div>
+<details class="example">
+<summary>Output</summary>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="gp">$ </span>srun<span class="w"> </span>--cpus-per-task<span class="w"> </span><span class="m">8</span><span class="w"> </span>-N<span class="w"> </span><span class="m">1</span><span class="w"> </span>--ntasks<span class="w"> </span><span class="m">32</span><span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;printf &quot;%02g:%s\n&quot; ${SLURM_LOCALID} $(hwloc-bind --get --taskset)&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="go">00:0x1fe</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="go">01:0x1fe000000000000000000</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="go">02:0x1fe000000000000000000000000000000000000</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="go">03:0x1fe000000000000000000000000000000000000000000000000000000</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="go">04:0x1fe00</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="go">05:0x1fe00000000000000000000</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="go">06:0x1fe00000000000000000000000000000000000000</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="go">07:0x1fe00000000000000000000000000000000000000000000000000000000</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="go">08:0x1fe0000</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="go">09:0x1fe0000000000000000000000</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="go">10:0x1fe0000000000000000000000000000000000000000</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="go">11:0x1fe0000000000000000000000000000000000000000000000000000000000</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="go">12:0x1fe000000</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="go">13:0x1fe000000000000000000000000</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="go">14:0x1fe000000000000000000000000000000000000000000</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="go">15:0x1fe000000000000000000000000000000000000000000000000000000000000</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="go">16:0x1fe00000000</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="go">17:0x1fe00000000000000000000000000</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="go">18:0x1fe00000000000000000000000000000000000000000000</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="go">19:0x1fe00000000000000000000000000000000000000000000000000000000000000</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="go">20:0x1fe0000000000</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="go">21:0x1fe0000000000000000000000000000</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="go">22:0x1fe0000000000000000000000000000000000000000000000</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="go">23:0x1fe0000000000000000000000000000000000000000000000000000000000000000</span>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="go">24:0x1fe000000000000</span>
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="go">25:0x1fe000000000000000000000000000000</span>
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="go">26:0x1fe000000000000000000000000000000000000000000000000</span>
+</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="go">27:0x1fe000000000000000000000000000000000000000000000000000000000000000000</span>
+</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="go">28:0x1fe00000000000000</span>
+</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="go">29:0x1fe00000000000000000000000000000000</span>
+</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="go">30:0x1fe00000000000000000000000000000000000000000000000000</span>
+</span><span id="__span-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a><span class="go">31:0x1fe00000000000000000000000000000000000000000000000000000000000000000000</span>
+</span></code></pre></div>
+</details>
+<h3 id="slurm">Slurm<a class="headerlink" href="#slurm" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>srun<span class="w"> </span><span class="o">[</span>...<span class="o">]</span><span class="w"> </span>--cpu-bind<span class="o">=</span>verbose
+</span></code></pre></div>
+<details class="example">
+<summary>Output</summary>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>cpu-bind=MASK - nid005367, task  0  0 [43161]: mask 0x1fe set
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>cpu-bind=MASK - nid005367, task  1  1 [43162]: mask 0x1fe000000000000000000 set
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>cpu-bind=MASK - nid005367, task  2  2 [43163]: mask 0x1fe000000000000000000000000000000000000 set
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>cpu-bind=MASK - nid005367, task  3  3 [43164]: mask 0x1fe000000000000000000000000000000000000000000000000000000 set
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>cpu-bind=MASK - nid005367, task  4  4 [43165]: mask 0x1fe00 set
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>cpu-bind=MASK - nid005367, task  5  5 [43166]: mask 0x1fe00000000000000000000 set
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>cpu-bind=MASK - nid005367, task  6  6 [43167]: mask 0x1fe00000000000000000000000000000000000000 set
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>cpu-bind=MASK - nid005367, task  7  7 [43168]: mask 0x1fe00000000000000000000000000000000000000000000000000000000 set
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>cpu-bind=MASK - nid005367, task  8  8 [43169]: mask 0x1fe0000 set
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>cpu-bind=MASK - nid005367, task  9  9 [43170]: mask 0x1fe0000000000000000000000 set
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>cpu-bind=MASK - nid005367, task 10 10 [43171]: mask 0x1fe0000000000000000000000000000000000000000 set
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>cpu-bind=MASK - nid005367, task 11 11 [43172]: mask 0x1fe0000000000000000000000000000000000000000000000000000000000 set
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>cpu-bind=MASK - nid005367, task 12 12 [43173]: mask 0x1fe000000 set
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>cpu-bind=MASK - nid005367, task 13 13 [43174]: mask 0x1fe000000000000000000000000 set
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>cpu-bind=MASK - nid005367, task 14 14 [43175]: mask 0x1fe000000000000000000000000000000000000000000 set
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>cpu-bind=MASK - nid005367, task 15 15 [43176]: mask 0x1fe000000000000000000000000000000000000000000000000000000000000 set
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>cpu-bind=MASK - nid005367, task 16 16 [43177]: mask 0x1fe00000000 set
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>cpu-bind=MASK - nid005367, task 17 17 [43178]: mask 0x1fe00000000000000000000000000 set
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>cpu-bind=MASK - nid005367, task 18 18 [43179]: mask 0x1fe00000000000000000000000000000000000000000000 set
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>cpu-bind=MASK - nid005367, task 19 19 [43180]: mask 0x1fe00000000000000000000000000000000000000000000000000000000000000 set
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>cpu-bind=MASK - nid005367, task 20 20 [43181]: mask 0x1fe0000000000 set
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>cpu-bind=MASK - nid005367, task 21 21 [43182]: mask 0x1fe0000000000000000000000000000 set
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>cpu-bind=MASK - nid005367, task 22 22 [43183]: mask 0x1fe0000000000000000000000000000000000000000000000 set
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>cpu-bind=MASK - nid005367, task 23 23 [43184]: mask 0x1fe0000000000000000000000000000000000000000000000000000000000000000 set
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>cpu-bind=MASK - nid005367, task 24 24 [43185]: mask 0x1fe000000000000 set
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>cpu-bind=MASK - nid005367, task 25 25 [43186]: mask 0x1fe000000000000000000000000000000 set
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>cpu-bind=MASK - nid005367, task 26 26 [43187]: mask 0x1fe000000000000000000000000000000000000000000000000 set
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>cpu-bind=MASK - nid005367, task 27 27 [43188]: mask 0x1fe000000000000000000000000000000000000000000000000000000000000000000 set
+</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>cpu-bind=MASK - nid005367, task 28 28 [43189]: mask 0x1fe00000000000000 set
+</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>cpu-bind=MASK - nid005367, task 29 29 [43190]: mask 0x1fe00000000000000000000000000000000 set
+</span><span id="__span-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>cpu-bind=MASK - nid005367, task 30 30 [43191]: mask 0x1fe00000000000000000000000000000000000000000000000000 set
+</span><span id="__span-4-32"><a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a>cpu-bind=MASK - nid005367, task 31 31 [43192]: mask 0x1fe00000000000000000000000000000000000000000000000000000000000000000000 set
+</span></code></pre></div>
+</details>
+<p>The CPU mask is also available in the environment variable <code>SLURM_CPU_BIND_LIST</code> (or <code>SLURM_CPU_BIND</code>).</p>
+<details class="example">
+<summary><code>SLURM_CPU_BIND_LIST</code></summary>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="gp">$ </span>srun<span class="w"> </span>-N<span class="w"> </span><span class="m">1</span><span class="w"> </span>-n<span class="w"> </span><span class="m">4</span><span class="w"> </span>-c<span class="w"> </span><span class="m">64</span><span class="w"> </span>-p<span class="w"> </span>debug<span class="w"> </span>printenv<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>SLURM_CPU_BIND_LIST
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="go">SLURM_CPU_BIND_LIST=0x00000000000000000000000000000000000000000000000000000000FFFFFFFFFFFFFFFF,0x00000000000000000000000000000000000000FFFFFFFFFFFFFFFF000000000000000000,0x00000000000000000000FFFFFFFFFFFFFFFF000000000000000000000000000000000000,0x00FFFFFFFFFFFFFFFF000000000000000000000000000000000000000000000000000000</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="go">SLURM_CPU_BIND_LIST=0x00000000000000000000000000000000000000000000000000000000FFFFFFFFFFFFFFFF,0x00000000000000000000000000000000000000FFFFFFFFFFFFFFFF000000000000000000,0x00000000000000000000FFFFFFFFFFFFFFFF000000000000000000000000000000000000,0x00FFFFFFFFFFFFFFFF000000000000000000000000000000000000000000000000000000</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="go">SLURM_CPU_BIND_LIST=0x00000000000000000000000000000000000000000000000000000000FFFFFFFFFFFFFFFF,0x00000000000000000000000000000000000000FFFFFFFFFFFFFFFF000000000000000000,0x00000000000000000000FFFFFFFFFFFFFFFF000000000000000000000000000000000000,0x00FFFFFFFFFFFFFFFF000000000000000000000000000000000000000000000000000000</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="go">SLURM_CPU_BIND_LIST=0x00000000000000000000000000000000000000000000000000000000FFFFFFFFFFFFFFFF,0x00000000000000000000000000000000000000FFFFFFFFFFFFFFFF000000000000000000,0x00000000000000000000FFFFFFFFFFFFFFFF000000000000000000000000000000000000,0x00FFFFFFFFFFFFFFFF000000000000000000000000000000000000000000000000000000</span>
+</span></code></pre></div>
+</details>
+<h3 id="openmp">OpenMP<a class="headerlink" href="#openmp" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_DISPLAY_AFFINITY</span><span class="o">=</span>TRUE
+</span></code></pre></div>
+<details class="example">
+<summary>Output</summary>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>level 1 thread 0x40000a7e9900 affinity 249-256
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>level 1 thread 0x400013adc900 affinity 249-256
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>level 1 thread 0x400013cec900 affinity 249-256
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>level 1 thread 0x400013efc900 affinity 249-256
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>level 1 thread 0x40001410c900 affinity 249-256
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>level 1 thread 0x40001431c900 affinity 249-256
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>level 1 thread 0x40001452c900 affinity 249-256
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>level 1 thread 0x4000426a9900 affinity 185-192
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>level 1 thread 0x40004b99c900 affinity 185-192
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>level 1 thread 0x40004bbac900 affinity 185-192
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>level 1 thread 0x40004bdbc900 affinity 185-192
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>level 1 thread 0x40004bfcc900 affinity 185-192
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>level 1 thread 0x40004c1dc900 affinity 185-192
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>level 1 thread 0x40004c3ec900 affinity 185-192
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>level 1 thread 0x400020279900 affinity 265-272
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>level 1 thread 0x40002956c900 affinity 265-272
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>level 1 thread 0x40002977c900 affinity 265-272
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>level 1 thread 0x40002998c900 affinity 265-272
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>level 1 thread 0x400029b9c900 affinity 265-272
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>level 1 thread 0x400029dac900 affinity 265-272
+</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>level 1 thread 0x400029fbc900 affinity 265-272
+</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>level 1 thread 0x400038c39900 affinity 225-232
+</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>level 1 thread 0x400041f2c900 affinity 225-232
+</span><span id="__span-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a>level 1 thread 0x40004213c900 affinity 225-232
+</span><span id="__span-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a>level 1 thread 0x40004234c900 affinity 225-232
+</span><span id="__span-7-26"><a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a>level 1 thread 0x40004255c900 affinity 225-232
+</span><span id="__span-7-27"><a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a>level 1 thread 0x40004276c900 affinity 225-232
+</span><span id="__span-7-28"><a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a>level 1 thread 0x40004297c900 affinity 225-232
+</span><span id="__span-7-29"><a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a>level 1 thread 0x4000096a9900 affinity 233-240
+</span><span id="__span-7-30"><a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a>level 1 thread 0x40001299c900 affinity 233-240
+</span><span id="__span-7-31"><a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a>level 1 thread 0x400012bac900 affinity 233-240
+</span><span id="__span-7-32"><a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a>level 1 thread 0x400012dbc900 affinity 233-240
+</span><span id="__span-7-33"><a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a>level 1 thread 0x400012fcc900 affinity 233-240
+</span><span id="__span-7-34"><a id="__codelineno-7-34" name="__codelineno-7-34" href="#__codelineno-7-34"></a>level 1 thread 0x4000131dc900 affinity 233-240
+</span><span id="__span-7-35"><a id="__codelineno-7-35" name="__codelineno-7-35" href="#__codelineno-7-35"></a>level 1 thread 0x4000133ec900 affinity 233-240
+</span><span id="__span-7-36"><a id="__codelineno-7-36" name="__codelineno-7-36" href="#__codelineno-7-36"></a>level 1 thread 0x40001da09900 affinity 129-136
+</span><span id="__span-7-37"><a id="__codelineno-7-37" name="__codelineno-7-37" href="#__codelineno-7-37"></a>level 1 thread 0x400026cfc900 affinity 129-136
+</span><span id="__span-7-38"><a id="__codelineno-7-38" name="__codelineno-7-38" href="#__codelineno-7-38"></a>level 1 thread 0x400026f0c900 affinity 129-136
+</span><span id="__span-7-39"><a id="__codelineno-7-39" name="__codelineno-7-39" href="#__codelineno-7-39"></a>level 1 thread 0x40002711c900 affinity 129-136
+</span><span id="__span-7-40"><a id="__codelineno-7-40" name="__codelineno-7-40" href="#__codelineno-7-40"></a>level 1 thread 0x40002732c900 affinity 129-136
+</span><span id="__span-7-41"><a id="__codelineno-7-41" name="__codelineno-7-41" href="#__codelineno-7-41"></a>level 1 thread 0x40002753c900 affinity 129-136
+</span><span id="__span-7-42"><a id="__codelineno-7-42" name="__codelineno-7-42" href="#__codelineno-7-42"></a>level 1 thread 0x40002774c900 affinity 129-136
+</span><span id="__span-7-43"><a id="__codelineno-7-43" name="__codelineno-7-43" href="#__codelineno-7-43"></a>level 1 thread 0x400009619900 affinity 217-224
+</span><span id="__span-7-44"><a id="__codelineno-7-44" name="__codelineno-7-44" href="#__codelineno-7-44"></a>level 1 thread 0x40001290c900 affinity 217-224
+</span><span id="__span-7-45"><a id="__codelineno-7-45" name="__codelineno-7-45" href="#__codelineno-7-45"></a>level 1 thread 0x400012b1c900 affinity 217-224
+</span><span id="__span-7-46"><a id="__codelineno-7-46" name="__codelineno-7-46" href="#__codelineno-7-46"></a>level 1 thread 0x400012d2c900 affinity 217-224
+</span><span id="__span-7-47"><a id="__codelineno-7-47" name="__codelineno-7-47" href="#__codelineno-7-47"></a>level 1 thread 0x400012f3c900 affinity 217-224
+</span><span id="__span-7-48"><a id="__codelineno-7-48" name="__codelineno-7-48" href="#__codelineno-7-48"></a>level 1 thread 0x40001314c900 affinity 217-224
+</span><span id="__span-7-49"><a id="__codelineno-7-49" name="__codelineno-7-49" href="#__codelineno-7-49"></a>level 1 thread 0x40001335c900 affinity 217-224
+</span><span id="__span-7-50"><a id="__codelineno-7-50" name="__codelineno-7-50" href="#__codelineno-7-50"></a>level 1 thread 0x400044149900 affinity 257-264
+</span><span id="__span-7-51"><a id="__codelineno-7-51" name="__codelineno-7-51" href="#__codelineno-7-51"></a>level 1 thread 0x40004d43c900 affinity 257-264
+</span><span id="__span-7-52"><a id="__codelineno-7-52" name="__codelineno-7-52" href="#__codelineno-7-52"></a>level 1 thread 0x40004d64c900 affinity 257-264
+</span><span id="__span-7-53"><a id="__codelineno-7-53" name="__codelineno-7-53" href="#__codelineno-7-53"></a>level 1 thread 0x40004d85c900 affinity 257-264
+</span><span id="__span-7-54"><a id="__codelineno-7-54" name="__codelineno-7-54" href="#__codelineno-7-54"></a>level 1 thread 0x40004da6c900 affinity 257-264
+</span><span id="__span-7-55"><a id="__codelineno-7-55" name="__codelineno-7-55" href="#__codelineno-7-55"></a>level 1 thread 0x40004dc7c900 affinity 257-264
+</span><span id="__span-7-56"><a id="__codelineno-7-56" name="__codelineno-7-56" href="#__codelineno-7-56"></a>level 1 thread 0x40004de8c900 affinity 257-264
+</span><span id="__span-7-57"><a id="__codelineno-7-57" name="__codelineno-7-57" href="#__codelineno-7-57"></a>level 1 thread 0x4000406a9900 affinity 89-96
+</span><span id="__span-7-58"><a id="__codelineno-7-58" name="__codelineno-7-58" href="#__codelineno-7-58"></a>level 1 thread 0x40004999c900 affinity 89-96
+</span><span id="__span-7-59"><a id="__codelineno-7-59" name="__codelineno-7-59" href="#__codelineno-7-59"></a>level 1 thread 0x400049bac900 affinity 89-96
+</span><span id="__span-7-60"><a id="__codelineno-7-60" name="__codelineno-7-60" href="#__codelineno-7-60"></a>level 1 thread 0x400049dbc900 affinity 89-96
+</span><span id="__span-7-61"><a id="__codelineno-7-61" name="__codelineno-7-61" href="#__codelineno-7-61"></a>level 1 thread 0x400049fcc900 affinity 89-96
+</span><span id="__span-7-62"><a id="__codelineno-7-62" name="__codelineno-7-62" href="#__codelineno-7-62"></a>level 1 thread 0x40004a1dc900 affinity 89-96
+</span><span id="__span-7-63"><a id="__codelineno-7-63" name="__codelineno-7-63" href="#__codelineno-7-63"></a>level 1 thread 0x40004a3ec900 affinity 89-96
+</span><span id="__span-7-64"><a id="__codelineno-7-64" name="__codelineno-7-64" href="#__codelineno-7-64"></a>level 1 thread 0x40000a7f9900 affinity 273-280
+</span><span id="__span-7-65"><a id="__codelineno-7-65" name="__codelineno-7-65" href="#__codelineno-7-65"></a>level 1 thread 0x400013aec900 affinity 273-280
+</span><span id="__span-7-66"><a id="__codelineno-7-66" name="__codelineno-7-66" href="#__codelineno-7-66"></a>level 1 thread 0x400013cfc900 affinity 273-280
+</span><span id="__span-7-67"><a id="__codelineno-7-67" name="__codelineno-7-67" href="#__codelineno-7-67"></a>level 1 thread 0x400013f0c900 affinity 273-280
+</span><span id="__span-7-68"><a id="__codelineno-7-68" name="__codelineno-7-68" href="#__codelineno-7-68"></a>level 1 thread 0x40001411c900 affinity 273-280
+</span><span id="__span-7-69"><a id="__codelineno-7-69" name="__codelineno-7-69" href="#__codelineno-7-69"></a>level 1 thread 0x40001432c900 affinity 273-280
+</span><span id="__span-7-70"><a id="__codelineno-7-70" name="__codelineno-7-70" href="#__codelineno-7-70"></a>level 1 thread 0x40001453c900 affinity 273-280
+</span><span id="__span-7-71"><a id="__codelineno-7-71" name="__codelineno-7-71" href="#__codelineno-7-71"></a>level 1 thread 0x4000256a9900 affinity 49-56
+</span><span id="__span-7-72"><a id="__codelineno-7-72" name="__codelineno-7-72" href="#__codelineno-7-72"></a>level 1 thread 0x40002e99c900 affinity 49-56
+</span><span id="__span-7-73"><a id="__codelineno-7-73" name="__codelineno-7-73" href="#__codelineno-7-73"></a>level 1 thread 0x40002ebac900 affinity 49-56
+</span><span id="__span-7-74"><a id="__codelineno-7-74" name="__codelineno-7-74" href="#__codelineno-7-74"></a>level 1 thread 0x40002edbc900 affinity 49-56
+</span><span id="__span-7-75"><a id="__codelineno-7-75" name="__codelineno-7-75" href="#__codelineno-7-75"></a>level 1 thread 0x40002efcc900 affinity 49-56
+</span><span id="__span-7-76"><a id="__codelineno-7-76" name="__codelineno-7-76" href="#__codelineno-7-76"></a>level 1 thread 0x40002f1dc900 affinity 49-56
+</span><span id="__span-7-77"><a id="__codelineno-7-77" name="__codelineno-7-77" href="#__codelineno-7-77"></a>level 1 thread 0x40002f3ec900 affinity 49-56
+</span><span id="__span-7-78"><a id="__codelineno-7-78" name="__codelineno-7-78" href="#__codelineno-7-78"></a>level 1 thread 0x4000301b9900 affinity 161-168
+</span><span id="__span-7-79"><a id="__codelineno-7-79" name="__codelineno-7-79" href="#__codelineno-7-79"></a>level 1 thread 0x4000394ac900 affinity 161-168
+</span><span id="__span-7-80"><a id="__codelineno-7-80" name="__codelineno-7-80" href="#__codelineno-7-80"></a>level 1 thread 0x4000396bc900 affinity 161-168
+</span><span id="__span-7-81"><a id="__codelineno-7-81" name="__codelineno-7-81" href="#__codelineno-7-81"></a>level 1 thread 0x4000398cc900 affinity 161-168
+</span><span id="__span-7-82"><a id="__codelineno-7-82" name="__codelineno-7-82" href="#__codelineno-7-82"></a>level 1 thread 0x400039adc900 affinity 161-168
+</span><span id="__span-7-83"><a id="__codelineno-7-83" name="__codelineno-7-83" href="#__codelineno-7-83"></a>level 1 thread 0x400039cec900 affinity 161-168
+</span><span id="__span-7-84"><a id="__codelineno-7-84" name="__codelineno-7-84" href="#__codelineno-7-84"></a>level 1 thread 0x400039efc900 affinity 161-168
+</span><span id="__span-7-85"><a id="__codelineno-7-85" name="__codelineno-7-85" href="#__codelineno-7-85"></a>level 1 thread 0x4000137c9900 affinity 33-40
+</span><span id="__span-7-86"><a id="__codelineno-7-86" name="__codelineno-7-86" href="#__codelineno-7-86"></a>level 1 thread 0x40001cabc900 affinity 33-40
+</span><span id="__span-7-87"><a id="__codelineno-7-87" name="__codelineno-7-87" href="#__codelineno-7-87"></a>level 1 thread 0x40001cccc900 affinity 33-40
+</span><span id="__span-7-88"><a id="__codelineno-7-88" name="__codelineno-7-88" href="#__codelineno-7-88"></a>level 1 thread 0x40001cedc900 affinity 33-40
+</span><span id="__span-7-89"><a id="__codelineno-7-89" name="__codelineno-7-89" href="#__codelineno-7-89"></a>level 1 thread 0x40001d0ec900 affinity 33-40
+</span><span id="__span-7-90"><a id="__codelineno-7-90" name="__codelineno-7-90" href="#__codelineno-7-90"></a>level 1 thread 0x40001d2fc900 affinity 33-40
+</span><span id="__span-7-91"><a id="__codelineno-7-91" name="__codelineno-7-91" href="#__codelineno-7-91"></a>level 1 thread 0x40001d50c900 affinity 33-40
+</span><span id="__span-7-92"><a id="__codelineno-7-92" name="__codelineno-7-92" href="#__codelineno-7-92"></a>level 1 thread 0x40003d509900 affinity 121-128
+</span><span id="__span-7-93"><a id="__codelineno-7-93" name="__codelineno-7-93" href="#__codelineno-7-93"></a>level 1 thread 0x4000467fc900 affinity 121-128
+</span><span id="__span-7-94"><a id="__codelineno-7-94" name="__codelineno-7-94" href="#__codelineno-7-94"></a>level 1 thread 0x400046a0c900 affinity 121-128
+</span><span id="__span-7-95"><a id="__codelineno-7-95" name="__codelineno-7-95" href="#__codelineno-7-95"></a>level 1 thread 0x400046c1c900 affinity 121-128
+</span><span id="__span-7-96"><a id="__codelineno-7-96" name="__codelineno-7-96" href="#__codelineno-7-96"></a>level 1 thread 0x400046e2c900 affinity 121-128
+</span><span id="__span-7-97"><a id="__codelineno-7-97" name="__codelineno-7-97" href="#__codelineno-7-97"></a>level 1 thread 0x40004703c900 affinity 121-128
+</span><span id="__span-7-98"><a id="__codelineno-7-98" name="__codelineno-7-98" href="#__codelineno-7-98"></a>level 1 thread 0x40004724c900 affinity 121-128
+</span><span id="__span-7-99"><a id="__codelineno-7-99" name="__codelineno-7-99" href="#__codelineno-7-99"></a>level 1 thread 0x400037349900 affinity 9-16
+</span><span id="__span-7-100"><a id="__codelineno-7-100" name="__codelineno-7-100" href="#__codelineno-7-100"></a>level 1 thread 0x40004063c900 affinity 9-16
+</span><span id="__span-7-101"><a id="__codelineno-7-101" name="__codelineno-7-101" href="#__codelineno-7-101"></a>level 1 thread 0x40004084c900 affinity 9-16
+</span><span id="__span-7-102"><a id="__codelineno-7-102" name="__codelineno-7-102" href="#__codelineno-7-102"></a>level 1 thread 0x400040a5c900 affinity 9-16
+</span><span id="__span-7-103"><a id="__codelineno-7-103" name="__codelineno-7-103" href="#__codelineno-7-103"></a>level 1 thread 0x400040c6c900 affinity 9-16
+</span><span id="__span-7-104"><a id="__codelineno-7-104" name="__codelineno-7-104" href="#__codelineno-7-104"></a>level 1 thread 0x400040e7c900 affinity 9-16
+</span><span id="__span-7-105"><a id="__codelineno-7-105" name="__codelineno-7-105" href="#__codelineno-7-105"></a>level 1 thread 0x40004108c900 affinity 9-16
+</span><span id="__span-7-106"><a id="__codelineno-7-106" name="__codelineno-7-106" href="#__codelineno-7-106"></a>level 1 thread 0x40001bdf9900 affinity 17-24
+</span><span id="__span-7-107"><a id="__codelineno-7-107" name="__codelineno-7-107" href="#__codelineno-7-107"></a>level 1 thread 0x4000250ec900 affinity 17-24
+</span><span id="__span-7-108"><a id="__codelineno-7-108" name="__codelineno-7-108" href="#__codelineno-7-108"></a>level 1 thread 0x4000252fc900 affinity 17-24
+</span><span id="__span-7-109"><a id="__codelineno-7-109" name="__codelineno-7-109" href="#__codelineno-7-109"></a>level 1 thread 0x40002550c900 affinity 17-24
+</span><span id="__span-7-110"><a id="__codelineno-7-110" name="__codelineno-7-110" href="#__codelineno-7-110"></a>level 1 thread 0x40002571c900 affinity 17-24
+</span><span id="__span-7-111"><a id="__codelineno-7-111" name="__codelineno-7-111" href="#__codelineno-7-111"></a>level 1 thread 0x40002592c900 affinity 17-24
+</span><span id="__span-7-112"><a id="__codelineno-7-112" name="__codelineno-7-112" href="#__codelineno-7-112"></a>level 1 thread 0x400025b3c900 affinity 17-24
+</span><span id="__span-7-113"><a id="__codelineno-7-113" name="__codelineno-7-113" href="#__codelineno-7-113"></a>level 1 thread 0x4000409a9900 affinity 113-120
+</span><span id="__span-7-114"><a id="__codelineno-7-114" name="__codelineno-7-114" href="#__codelineno-7-114"></a>level 1 thread 0x400049c9c900 affinity 113-120
+</span><span id="__span-7-115"><a id="__codelineno-7-115" name="__codelineno-7-115" href="#__codelineno-7-115"></a>level 1 thread 0x400049eac900 affinity 113-120
+</span><span id="__span-7-116"><a id="__codelineno-7-116" name="__codelineno-7-116" href="#__codelineno-7-116"></a>level 1 thread 0x40004a0bc900 affinity 113-120
+</span><span id="__span-7-117"><a id="__codelineno-7-117" name="__codelineno-7-117" href="#__codelineno-7-117"></a>level 1 thread 0x40004a2cc900 affinity 113-120
+</span><span id="__span-7-118"><a id="__codelineno-7-118" name="__codelineno-7-118" href="#__codelineno-7-118"></a>level 1 thread 0x40004a4dc900 affinity 113-120
+</span><span id="__span-7-119"><a id="__codelineno-7-119" name="__codelineno-7-119" href="#__codelineno-7-119"></a>level 1 thread 0x40004a6ec900 affinity 113-120
+</span><span id="__span-7-120"><a id="__codelineno-7-120" name="__codelineno-7-120" href="#__codelineno-7-120"></a>level 1 thread 0x40001d349900 affinity 73-80
+</span><span id="__span-7-121"><a id="__codelineno-7-121" name="__codelineno-7-121" href="#__codelineno-7-121"></a>level 1 thread 0x40002663c900 affinity 73-80
+</span><span id="__span-7-122"><a id="__codelineno-7-122" name="__codelineno-7-122" href="#__codelineno-7-122"></a>level 1 thread 0x40002684c900 affinity 73-80
+</span><span id="__span-7-123"><a id="__codelineno-7-123" name="__codelineno-7-123" href="#__codelineno-7-123"></a>level 1 thread 0x400026a5c900 affinity 73-80
+</span><span id="__span-7-124"><a id="__codelineno-7-124" name="__codelineno-7-124" href="#__codelineno-7-124"></a>level 1 thread 0x400026c6c900 affinity 73-80
+</span><span id="__span-7-125"><a id="__codelineno-7-125" name="__codelineno-7-125" href="#__codelineno-7-125"></a>level 1 thread 0x400026e7c900 affinity 73-80
+</span><span id="__span-7-126"><a id="__codelineno-7-126" name="__codelineno-7-126" href="#__codelineno-7-126"></a>level 1 thread 0x40002708c900 affinity 73-80
+</span><span id="__span-7-127"><a id="__codelineno-7-127" name="__codelineno-7-127" href="#__codelineno-7-127"></a>level 1 thread 0x4000298a9900 affinity 145-152
+</span><span id="__span-7-128"><a id="__codelineno-7-128" name="__codelineno-7-128" href="#__codelineno-7-128"></a>level 1 thread 0x400032b9c900 affinity 145-152
+</span><span id="__span-7-129"><a id="__codelineno-7-129" name="__codelineno-7-129" href="#__codelineno-7-129"></a>level 1 thread 0x400032dac900 affinity 145-152
+</span><span id="__span-7-130"><a id="__codelineno-7-130" name="__codelineno-7-130" href="#__codelineno-7-130"></a>level 1 thread 0x400032fbc900 affinity 145-152
+</span><span id="__span-7-131"><a id="__codelineno-7-131" name="__codelineno-7-131" href="#__codelineno-7-131"></a>level 1 thread 0x4000331cc900 affinity 145-152
+</span><span id="__span-7-132"><a id="__codelineno-7-132" name="__codelineno-7-132" href="#__codelineno-7-132"></a>level 1 thread 0x4000333dc900 affinity 145-152
+</span><span id="__span-7-133"><a id="__codelineno-7-133" name="__codelineno-7-133" href="#__codelineno-7-133"></a>level 1 thread 0x4000335ec900 affinity 145-152
+</span><span id="__span-7-134"><a id="__codelineno-7-134" name="__codelineno-7-134" href="#__codelineno-7-134"></a>level 1 thread 0x400005c79900 affinity 169-176
+</span><span id="__span-7-135"><a id="__codelineno-7-135" name="__codelineno-7-135" href="#__codelineno-7-135"></a>level 1 thread 0x40000ef6c900 affinity 169-176
+</span><span id="__span-7-136"><a id="__codelineno-7-136" name="__codelineno-7-136" href="#__codelineno-7-136"></a>level 1 thread 0x40000f17c900 affinity 169-176
+</span><span id="__span-7-137"><a id="__codelineno-7-137" name="__codelineno-7-137" href="#__codelineno-7-137"></a>level 1 thread 0x40000f38c900 affinity 169-176
+</span><span id="__span-7-138"><a id="__codelineno-7-138" name="__codelineno-7-138" href="#__codelineno-7-138"></a>level 1 thread 0x40000f59c900 affinity 169-176
+</span><span id="__span-7-139"><a id="__codelineno-7-139" name="__codelineno-7-139" href="#__codelineno-7-139"></a>level 1 thread 0x40000f7ac900 affinity 169-176
+</span><span id="__span-7-140"><a id="__codelineno-7-140" name="__codelineno-7-140" href="#__codelineno-7-140"></a>level 1 thread 0x40000f9bc900 affinity 169-176
+</span><span id="__span-7-141"><a id="__codelineno-7-141" name="__codelineno-7-141" href="#__codelineno-7-141"></a>level 1 thread 0x40003a6b9900 affinity 105-112
+</span><span id="__span-7-142"><a id="__codelineno-7-142" name="__codelineno-7-142" href="#__codelineno-7-142"></a>level 1 thread 0x4000439ac900 affinity 105-112
+</span><span id="__span-7-143"><a id="__codelineno-7-143" name="__codelineno-7-143" href="#__codelineno-7-143"></a>level 1 thread 0x400043bbc900 affinity 105-112
+</span><span id="__span-7-144"><a id="__codelineno-7-144" name="__codelineno-7-144" href="#__codelineno-7-144"></a>level 1 thread 0x400043dcc900 affinity 105-112
+</span><span id="__span-7-145"><a id="__codelineno-7-145" name="__codelineno-7-145" href="#__codelineno-7-145"></a>level 1 thread 0x400043fdc900 affinity 105-112
+</span><span id="__span-7-146"><a id="__codelineno-7-146" name="__codelineno-7-146" href="#__codelineno-7-146"></a>level 1 thread 0x4000441ec900 affinity 105-112
+</span><span id="__span-7-147"><a id="__codelineno-7-147" name="__codelineno-7-147" href="#__codelineno-7-147"></a>level 1 thread 0x4000443fc900 affinity 105-112
+</span><span id="__span-7-148"><a id="__codelineno-7-148" name="__codelineno-7-148" href="#__codelineno-7-148"></a>level 1 thread 0x400040ce9900 affinity 41-48
+</span><span id="__span-7-149"><a id="__codelineno-7-149" name="__codelineno-7-149" href="#__codelineno-7-149"></a>level 1 thread 0x400049fdc900 affinity 41-48
+</span><span id="__span-7-150"><a id="__codelineno-7-150" name="__codelineno-7-150" href="#__codelineno-7-150"></a>level 1 thread 0x40004a1ec900 affinity 41-48
+</span><span id="__span-7-151"><a id="__codelineno-7-151" name="__codelineno-7-151" href="#__codelineno-7-151"></a>level 1 thread 0x40004a3fc900 affinity 41-48
+</span><span id="__span-7-152"><a id="__codelineno-7-152" name="__codelineno-7-152" href="#__codelineno-7-152"></a>level 1 thread 0x40004a60c900 affinity 41-48
+</span><span id="__span-7-153"><a id="__codelineno-7-153" name="__codelineno-7-153" href="#__codelineno-7-153"></a>level 1 thread 0x40004a81c900 affinity 41-48
+</span><span id="__span-7-154"><a id="__codelineno-7-154" name="__codelineno-7-154" href="#__codelineno-7-154"></a>level 1 thread 0x40004aa2c900 affinity 41-48
+</span><span id="__span-7-155"><a id="__codelineno-7-155" name="__codelineno-7-155" href="#__codelineno-7-155"></a>level 1 thread 0x40000bcc9900 affinity 193-200
+</span><span id="__span-7-156"><a id="__codelineno-7-156" name="__codelineno-7-156" href="#__codelineno-7-156"></a>level 1 thread 0x400014fbc900 affinity 193-200
+</span><span id="__span-7-157"><a id="__codelineno-7-157" name="__codelineno-7-157" href="#__codelineno-7-157"></a>level 1 thread 0x4000151cc900 affinity 193-200
+</span><span id="__span-7-158"><a id="__codelineno-7-158" name="__codelineno-7-158" href="#__codelineno-7-158"></a>level 1 thread 0x4000153dc900 affinity 193-200
+</span><span id="__span-7-159"><a id="__codelineno-7-159" name="__codelineno-7-159" href="#__codelineno-7-159"></a>level 1 thread 0x4000155ec900 affinity 193-200
+</span><span id="__span-7-160"><a id="__codelineno-7-160" name="__codelineno-7-160" href="#__codelineno-7-160"></a>level 1 thread 0x4000157fc900 affinity 193-200
+</span><span id="__span-7-161"><a id="__codelineno-7-161" name="__codelineno-7-161" href="#__codelineno-7-161"></a>level 1 thread 0x400015a0c900 affinity 193-200
+</span><span id="__span-7-162"><a id="__codelineno-7-162" name="__codelineno-7-162" href="#__codelineno-7-162"></a>level 1 thread 0x40002fb39900 affinity 81-88
+</span><span id="__span-7-163"><a id="__codelineno-7-163" name="__codelineno-7-163" href="#__codelineno-7-163"></a>level 1 thread 0x400038e2c900 affinity 81-88
+</span><span id="__span-7-164"><a id="__codelineno-7-164" name="__codelineno-7-164" href="#__codelineno-7-164"></a>level 1 thread 0x40003903c900 affinity 81-88
+</span><span id="__span-7-165"><a id="__codelineno-7-165" name="__codelineno-7-165" href="#__codelineno-7-165"></a>level 1 thread 0x40003924c900 affinity 81-88
+</span><span id="__span-7-166"><a id="__codelineno-7-166" name="__codelineno-7-166" href="#__codelineno-7-166"></a>level 1 thread 0x40003945c900 affinity 81-88
+</span><span id="__span-7-167"><a id="__codelineno-7-167" name="__codelineno-7-167" href="#__codelineno-7-167"></a>level 1 thread 0x40003966c900 affinity 81-88
+</span><span id="__span-7-168"><a id="__codelineno-7-168" name="__codelineno-7-168" href="#__codelineno-7-168"></a>level 1 thread 0x40003987c900 affinity 81-88
+</span><span id="__span-7-169"><a id="__codelineno-7-169" name="__codelineno-7-169" href="#__codelineno-7-169"></a>level 1 thread 0x40000e809900 affinity 153-160
+</span><span id="__span-7-170"><a id="__codelineno-7-170" name="__codelineno-7-170" href="#__codelineno-7-170"></a>level 1 thread 0x400017afc900 affinity 153-160
+</span><span id="__span-7-171"><a id="__codelineno-7-171" name="__codelineno-7-171" href="#__codelineno-7-171"></a>level 1 thread 0x400017d0c900 affinity 153-160
+</span><span id="__span-7-172"><a id="__codelineno-7-172" name="__codelineno-7-172" href="#__codelineno-7-172"></a>level 1 thread 0x400017f1c900 affinity 153-160
+</span><span id="__span-7-173"><a id="__codelineno-7-173" name="__codelineno-7-173" href="#__codelineno-7-173"></a>level 1 thread 0x40001812c900 affinity 153-160
+</span><span id="__span-7-174"><a id="__codelineno-7-174" name="__codelineno-7-174" href="#__codelineno-7-174"></a>level 1 thread 0x40001833c900 affinity 153-160
+</span><span id="__span-7-175"><a id="__codelineno-7-175" name="__codelineno-7-175" href="#__codelineno-7-175"></a>level 1 thread 0x40001854c900 affinity 153-160
+</span><span id="__span-7-176"><a id="__codelineno-7-176" name="__codelineno-7-176" href="#__codelineno-7-176"></a>level 1 thread 0x400012829900 affinity 25-32
+</span><span id="__span-7-177"><a id="__codelineno-7-177" name="__codelineno-7-177" href="#__codelineno-7-177"></a>level 1 thread 0x40001bb1c900 affinity 25-32
+</span><span id="__span-7-178"><a id="__codelineno-7-178" name="__codelineno-7-178" href="#__codelineno-7-178"></a>level 1 thread 0x40001bd2c900 affinity 25-32
+</span><span id="__span-7-179"><a id="__codelineno-7-179" name="__codelineno-7-179" href="#__codelineno-7-179"></a>level 1 thread 0x40001bf3c900 affinity 25-32
+</span><span id="__span-7-180"><a id="__codelineno-7-180" name="__codelineno-7-180" href="#__codelineno-7-180"></a>level 1 thread 0x40001c14c900 affinity 25-32
+</span><span id="__span-7-181"><a id="__codelineno-7-181" name="__codelineno-7-181" href="#__codelineno-7-181"></a>level 1 thread 0x40001c35c900 affinity 25-32
+</span><span id="__span-7-182"><a id="__codelineno-7-182" name="__codelineno-7-182" href="#__codelineno-7-182"></a>level 1 thread 0x40001c56c900 affinity 25-32
+</span><span id="__span-7-183"><a id="__codelineno-7-183" name="__codelineno-7-183" href="#__codelineno-7-183"></a>level 1 thread 0x400041a19900 affinity 97-104
+</span><span id="__span-7-184"><a id="__codelineno-7-184" name="__codelineno-7-184" href="#__codelineno-7-184"></a>level 1 thread 0x40004ad0c900 affinity 97-104
+</span><span id="__span-7-185"><a id="__codelineno-7-185" name="__codelineno-7-185" href="#__codelineno-7-185"></a>level 1 thread 0x40004af1c900 affinity 97-104
+</span><span id="__span-7-186"><a id="__codelineno-7-186" name="__codelineno-7-186" href="#__codelineno-7-186"></a>level 1 thread 0x40004b12c900 affinity 97-104
+</span><span id="__span-7-187"><a id="__codelineno-7-187" name="__codelineno-7-187" href="#__codelineno-7-187"></a>level 1 thread 0x40004b33c900 affinity 97-104
+</span><span id="__span-7-188"><a id="__codelineno-7-188" name="__codelineno-7-188" href="#__codelineno-7-188"></a>level 1 thread 0x40004b54c900 affinity 97-104
+</span><span id="__span-7-189"><a id="__codelineno-7-189" name="__codelineno-7-189" href="#__codelineno-7-189"></a>level 1 thread 0x40004b75c900 affinity 97-104
+</span><span id="__span-7-190"><a id="__codelineno-7-190" name="__codelineno-7-190" href="#__codelineno-7-190"></a>level 1 thread 0x40003a3a9900 affinity 241-248
+</span><span id="__span-7-191"><a id="__codelineno-7-191" name="__codelineno-7-191" href="#__codelineno-7-191"></a>level 1 thread 0x40004369c900 affinity 241-248
+</span><span id="__span-7-192"><a id="__codelineno-7-192" name="__codelineno-7-192" href="#__codelineno-7-192"></a>level 1 thread 0x4000438ac900 affinity 241-248
+</span><span id="__span-7-193"><a id="__codelineno-7-193" name="__codelineno-7-193" href="#__codelineno-7-193"></a>level 1 thread 0x400043abc900 affinity 241-248
+</span><span id="__span-7-194"><a id="__codelineno-7-194" name="__codelineno-7-194" href="#__codelineno-7-194"></a>level 1 thread 0x400043ccc900 affinity 241-248
+</span><span id="__span-7-195"><a id="__codelineno-7-195" name="__codelineno-7-195" href="#__codelineno-7-195"></a>level 1 thread 0x400043edc900 affinity 241-248
+</span><span id="__span-7-196"><a id="__codelineno-7-196" name="__codelineno-7-196" href="#__codelineno-7-196"></a>level 1 thread 0x4000440ec900 affinity 241-248
+</span><span id="__span-7-197"><a id="__codelineno-7-197" name="__codelineno-7-197" href="#__codelineno-7-197"></a>level 1 thread 0x400031339900 affinity 57-64
+</span><span id="__span-7-198"><a id="__codelineno-7-198" name="__codelineno-7-198" href="#__codelineno-7-198"></a>level 1 thread 0x40003a62c900 affinity 57-64
+</span><span id="__span-7-199"><a id="__codelineno-7-199" name="__codelineno-7-199" href="#__codelineno-7-199"></a>level 1 thread 0x40003a83c900 affinity 57-64
+</span><span id="__span-7-200"><a id="__codelineno-7-200" name="__codelineno-7-200" href="#__codelineno-7-200"></a>level 1 thread 0x40003aa4c900 affinity 57-64
+</span><span id="__span-7-201"><a id="__codelineno-7-201" name="__codelineno-7-201" href="#__codelineno-7-201"></a>level 1 thread 0x40003ac5c900 affinity 57-64
+</span><span id="__span-7-202"><a id="__codelineno-7-202" name="__codelineno-7-202" href="#__codelineno-7-202"></a>level 1 thread 0x40003ae6c900 affinity 57-64
+</span><span id="__span-7-203"><a id="__codelineno-7-203" name="__codelineno-7-203" href="#__codelineno-7-203"></a>level 1 thread 0x40003b07c900 affinity 57-64
+</span><span id="__span-7-204"><a id="__codelineno-7-204" name="__codelineno-7-204" href="#__codelineno-7-204"></a>level 1 thread 0x40001a7d9900 affinity 201-208
+</span><span id="__span-7-205"><a id="__codelineno-7-205" name="__codelineno-7-205" href="#__codelineno-7-205"></a>level 1 thread 0x400023acc900 affinity 201-208
+</span><span id="__span-7-206"><a id="__codelineno-7-206" name="__codelineno-7-206" href="#__codelineno-7-206"></a>level 1 thread 0x400023cdc900 affinity 201-208
+</span><span id="__span-7-207"><a id="__codelineno-7-207" name="__codelineno-7-207" href="#__codelineno-7-207"></a>level 1 thread 0x400023eec900 affinity 201-208
+</span><span id="__span-7-208"><a id="__codelineno-7-208" name="__codelineno-7-208" href="#__codelineno-7-208"></a>level 1 thread 0x4000240fc900 affinity 201-208
+</span><span id="__span-7-209"><a id="__codelineno-7-209" name="__codelineno-7-209" href="#__codelineno-7-209"></a>level 1 thread 0x40002430c900 affinity 201-208
+</span><span id="__span-7-210"><a id="__codelineno-7-210" name="__codelineno-7-210" href="#__codelineno-7-210"></a>level 1 thread 0x40002451c900 affinity 201-208
+</span><span id="__span-7-211"><a id="__codelineno-7-211" name="__codelineno-7-211" href="#__codelineno-7-211"></a>level 1 thread 0x40001a519900 affinity 177-184
+</span><span id="__span-7-212"><a id="__codelineno-7-212" name="__codelineno-7-212" href="#__codelineno-7-212"></a>level 1 thread 0x40002380c900 affinity 177-184
+</span><span id="__span-7-213"><a id="__codelineno-7-213" name="__codelineno-7-213" href="#__codelineno-7-213"></a>level 1 thread 0x400023a1c900 affinity 177-184
+</span><span id="__span-7-214"><a id="__codelineno-7-214" name="__codelineno-7-214" href="#__codelineno-7-214"></a>level 1 thread 0x400023c2c900 affinity 177-184
+</span><span id="__span-7-215"><a id="__codelineno-7-215" name="__codelineno-7-215" href="#__codelineno-7-215"></a>level 1 thread 0x400023e3c900 affinity 177-184
+</span><span id="__span-7-216"><a id="__codelineno-7-216" name="__codelineno-7-216" href="#__codelineno-7-216"></a>level 1 thread 0x40002404c900 affinity 177-184
+</span><span id="__span-7-217"><a id="__codelineno-7-217" name="__codelineno-7-217" href="#__codelineno-7-217"></a>level 1 thread 0x40002425c900 affinity 177-184
+</span><span id="__span-7-218"><a id="__codelineno-7-218" name="__codelineno-7-218" href="#__codelineno-7-218"></a>level 1 thread 0x400038269900 affinity 1-8
+</span><span id="__span-7-219"><a id="__codelineno-7-219" name="__codelineno-7-219" href="#__codelineno-7-219"></a>level 1 thread 0x40004155c900 affinity 1-8
+</span><span id="__span-7-220"><a id="__codelineno-7-220" name="__codelineno-7-220" href="#__codelineno-7-220"></a>level 1 thread 0x40004176c900 affinity 1-8
+</span><span id="__span-7-221"><a id="__codelineno-7-221" name="__codelineno-7-221" href="#__codelineno-7-221"></a>level 1 thread 0x40004197c900 affinity 1-8
+</span><span id="__span-7-222"><a id="__codelineno-7-222" name="__codelineno-7-222" href="#__codelineno-7-222"></a>level 1 thread 0x400041b8c900 affinity 1-8
+</span><span id="__span-7-223"><a id="__codelineno-7-223" name="__codelineno-7-223" href="#__codelineno-7-223"></a>level 1 thread 0x400041d9c900 affinity 1-8
+</span><span id="__span-7-224"><a id="__codelineno-7-224" name="__codelineno-7-224" href="#__codelineno-7-224"></a>level 1 thread 0x400041fac900 affinity 1-8
+</span></code></pre></div>
+</details>
+<p>The following could be a better setting for printing out the affinity:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_AFFINITY_FORMAT</span><span class="o">=</span><span class="s2">&quot;host=%H, pid=%P, thread_num=%n, thread affinity=%A&quot;</span>
+</span></code></pre></div>
+<h2 id="determine-current-cpu">Determine current CPU<a class="headerlink" href="#determine-current-cpu" title="Permanent link">&para;</a></h2>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sched.h&gt;</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">get_current_cpu</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">sched_getcpu</span><span class="p">();</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="p">}</span>
+</span></code></pre></div>
+<h2 id="resources">Resources<a class="headerlink" href="#resources" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://github.com/vkarak/affinity">affinity</a>, from Vasilis Karakasis (<a href="https://github.com/vkarak">@vkarak</a>)</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "content.code.select", "content.action.edit", "navigation.indexes", "search.share", "navigation.instant", "navigation.tracking", "navigation.path", "navigation.top", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
