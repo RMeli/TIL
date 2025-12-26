@@ -65,6 +65,67 @@ To generate a patch for a package, one can use the [`diff` command](../linux/com
 By default, Spack applies patches with `patch -p1`, therefore patches should be
 modified so that file paths start with `a/` and `b/`, followed by the source code root directory.
 
+## Upstream Spack instances
+
+It is possible to point a Spack installation to another installation to use the already installed packages.
+See [chaining Spack installations](https://spack.readthedocs.io/en/latest/chain.html#chaining-spack-installations)
+for more details.
+
+### Permanent upstream Spack instance
+
+The upstream Spack instance can be added permanently in `~/.spack/config.yaml`:
+
+```yaml
+upstreams:
+  spack-instance-1:
+    install_tree: /path/to/other/spack/opt/spack
+  spack-instance-2:
+    install_tree: /path/to/another/spack/opt/spack
+```
+
+### Temporary upstream Spack instance
+
+The upstream Spack instance can be added temporarily by 
+[overriding the local configuration](https://spack.readthedocs.io/en/latest/configuration.html#overriding-local-configuration)
+via enviornment variables
+
+```bash
+export SPACK_SYSTEM_CONFIG_PATH=/user_environment/config/
+```
+
+or using the `-C` option:
+
+```bash
+spack -C /user_environment/config/ <command>
+```
+
+### Isolation
+
+If we install a package in our main Spack install tree, and it depends on something from an upstream Spack instance,
+we are implicitly creating a link between our Spack install tree and a the upstream Spack instance.
+
+Isolation can be obtained by temporarily changing the install tree:
+
+```bash
+spack -c 'config:install_tree:root:/temporary/install/tree' <command>
+```
+
+### Using custom Spack packages with upstream Spack instances
+
+We cannot add our personal Spack builtin repo as first repository otherwise we override all the packages from the upstream Spack instance.
+
+We cannot have it as last otherwise it gets completely overrideen by upstream builtin (unless the target package does not exists at all).
+
+Therefore, we need to add a temporary Spack repository within a Spack environment with the packages we want to override.
+In this case, the upstream Spack instance builtin repo needs to be added _within_ the environment as follows:
+
+```yaml
+spack -e . config add 'include:[/path/to/config/]'
+```
+
+Using `spack -C /path/to/config/` will not work because it will have precedence over the environment configuration.
+
+
 ## Spack views for development tools
 
 [Spack environment views] are a way to create a single directory that contains all the dependencies of a package.
