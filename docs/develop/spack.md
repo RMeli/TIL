@@ -171,6 +171,96 @@ spack -e . config add 'include:[/path/to/config/]'
 
 Using `spack -C /path/to/config/` will not work because it will have precedence over the environment configuration.
 
+## Query Spack database
+
+It is often useful to query the Spack database to get information about installed packages.
+For example, to get the version of an installed package, or its variants.
+
+The `index.json` can be queried with `jq`.
+
+To get the version of an installed package:
+
+```bash
+jq '.. | objects | select(has("version")) | select(.name == "PACKAGE_NAME") | .version' index.json
+```
+
+To get the variants of an installed package:
+
+```bash
+jq '.. | objects | select(has("variants")) | select(.name == "PACKAGE_NAME") | .parameters' index.json
+```
+
+!!! tip "Combining multiple fields"
+
+    To get multiple fields, one can use the following command:
+
+    ```bash
+    jq '.. | objects | select(has("version")) | select(.name == "PACKAGE_NAME") |  {name: .name, version: .version, parameters: .parameters}' index.json
+    ```
+
+??? example "Get version and variants of package installed in an uenv"
+
+    ```console
+    $ uenv start --view=cp2k cp2k/2026.1:v1
+    $ jq '.. | objects | select(has("version")) | select(.name == "cp2k") |  {name: .name, version: .version, variants: .parameters}' /user-environment/.spack-db/index.json
+    {
+      "name": "cp2k",
+      "version": "2026.1",
+      "variants": {
+        "build_system": "cmake",
+        "build_type": "Release",
+        "cosma": true,
+        "cuda": true,
+        "cuda_arch": [
+          "90"
+        ],
+        "cuda_arch_35_k20x": false,
+        "cuda_fft": false,
+        "dbm_gpu": true,
+        "deepmd": false,
+        "dftd4": true,
+        "dlaf": true,
+        "elpa": true,
+        "enable_regtests": false,
+        "generator": "ninja",
+        "greenx": false,
+        "grid_gpu": true,
+        "grpp": false,
+        "hdf5": false,
+        "hip_backend_cuda": false,
+        "ipo": false,
+        "libint": true,
+        "libvori": true,
+        "libxc": true,
+        "lmax": "5",
+        "mpi": true,
+        "mpi_f08": false,
+        "nlcg": false,
+        "opencl": false,
+        "openmp": true,
+        "pexsi": false,
+        "plumed": true,
+        "pw_gpu": true,
+        "pytorch": true,
+        "rocm": false,
+        "sirius": true,
+        "smeagol": false,
+        "smm": "blas",
+        "spglib": true,
+        "spla": true,
+        "tblite": false,
+        "trexio": false,
+        "vcsqnm": false,
+        "vdwxc": false,
+        "cflags": [],
+        "cppflags": [],
+        "cxxflags": [],
+        "fflags": [],
+        "ldflags": [],
+        "ldlibs": []
+      }
+    }
+    ```
 
 ## Spack views for development tools
 
