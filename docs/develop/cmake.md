@@ -64,6 +64,18 @@ if(CCACHE_PROGRAM)
 endif()
 ```
 
+## Debugging CMake
+
+### Finding Packages
+
+To debug package finding issues in CMake, one can set the following variable:
+
+```bash
+--debug-find
+```
+
+If thows all the paths where CMake is searching.
+
 [Ccache]: https://ccache.dev/
 [CMake]: https://cmake.org/
 [clangd]: https://clangd.llvm.org/

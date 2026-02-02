@@ -111,6 +111,157 @@ To generate a patch for a package, one can use the [`diff` command](../linux/com
 By default, Spack applies patches with `patch -p1`, therefore patches should be
 modified so that file paths start with `a/` and `b/`, followed by the source code root directory.
 
+## Upstream Spack instances
+
+It is possible to point a Spack installation to another installation to use the already installed packages.
+See [chaining Spack installations](https://spack.readthedocs.io/en/latest/chain.html#chaining-spack-installations)
+for more details.
+
+### Permanent upstream Spack instance
+
+The upstream Spack instance can be added permanently in `~/.spack/config.yaml`:
+
+```yaml
+upstreams:
+  spack-instance-1:
+    install_tree: /path/to/other/spack/opt/spack
+  spack-instance-2:
+    install_tree: /path/to/another/spack/opt/spack
+```
+
+### Temporary upstream Spack instance
+
+The upstream Spack instance can be added temporarily by 
+[overriding the local configuration](https://spack.readthedocs.io/en/latest/configuration.html#overriding-local-configuration)
+via enviornment variables
+
+```bash
+export SPACK_SYSTEM_CONFIG_PATH=/user_environment/config/
+```
+
+or using the `-C` option:
+
+```bash
+spack -C /user_environment/config/ <command>
+```
+
+### Isolation
+
+If we install a package in our main Spack install tree, and it depends on something from an upstream Spack instance,
+we are implicitly creating a link between our Spack install tree and a the upstream Spack instance.
+
+Isolation can be obtained by temporarily changing the install tree:
+
+```bash
+spack -c 'config:install_tree:root:/temporary/install/tree' <command>
+```
+
+### Using custom Spack packages with upstream Spack instances
+
+We cannot add our personal Spack builtin repo as first repository otherwise we override all the packages from the upstream Spack instance.
+
+We cannot have it as last otherwise it gets completely overrideen by upstream builtin (unless the target package does not exists at all).
+
+Therefore, we need to add a temporary Spack repository within a Spack environment with the packages we want to override.
+In this case, the upstream Spack instance builtin repo needs to be added _within_ the environment as follows:
+
+```yaml
+spack -e . config add 'include:[/path/to/config/]'
+```
+
+Using `spack -C /path/to/config/` will not work because it will have precedence over the environment configuration.
+
+## Query Spack database
+
+It is often useful to query the Spack database to get information about installed packages.
+For example, to get the version of an installed package, or its variants.
+
+The `index.json` can be queried with `jq`.
+
+To get the version of an installed package:
+
+```bash
+jq '.. | objects | select(has("version")) | select(.name == "PACKAGE_NAME") | .version' index.json
+```
+
+To get the variants of an installed package:
+
+```bash
+jq '.. | objects | select(has("variants")) | select(.name == "PACKAGE_NAME") | .parameters' index.json
+```
+
+!!! tip "Combining multiple fields"
+
+    To get multiple fields, one can use the following command:
+
+    ```bash
+    jq '.. | objects | select(has("version")) | select(.name == "PACKAGE_NAME") |  {name: .name, version: .version, parameters: .parameters}' index.json
+    ```
+
+??? example "Get version and variants of package installed in an uenv"
+
+    ```console
+    $ uenv start --view=cp2k cp2k/2026.1:v1
+    $ jq '.. | objects | select(has("version")) | select(.name == "cp2k") |  {name: .name, version: .version, variants: .parameters}' /user-environment/.spack-db/index.json
+    {
+      "name": "cp2k",
+      "version": "2026.1",
+      "variants": {
+        "build_system": "cmake",
+        "build_type": "Release",
+        "cosma": true,
+        "cuda": true,
+        "cuda_arch": [
+          "90"
+        ],
+        "cuda_arch_35_k20x": false,
+        "cuda_fft": false,
+        "dbm_gpu": true,
+        "deepmd": false,
+        "dftd4": true,
+        "dlaf": true,
+        "elpa": true,
+        "enable_regtests": false,
+        "generator": "ninja",
+        "greenx": false,
+        "grid_gpu": true,
+        "grpp": false,
+        "hdf5": false,
+        "hip_backend_cuda": false,
+        "ipo": false,
+        "libint": true,
+        "libvori": true,
+        "libxc": true,
+        "lmax": "5",
+        "mpi": true,
+        "mpi_f08": false,
+        "nlcg": false,
+        "opencl": false,
+        "openmp": true,
+        "pexsi": false,
+        "plumed": true,
+        "pw_gpu": true,
+        "pytorch": true,
+        "rocm": false,
+        "sirius": true,
+        "smeagol": false,
+        "smm": "blas",
+        "spglib": true,
+        "spla": true,
+        "tblite": false,
+        "trexio": false,
+        "vcsqnm": false,
+        "vdwxc": false,
+        "cflags": [],
+        "cppflags": [],
+        "cxxflags": [],
+        "fflags": [],
+        "ldflags": [],
+        "ldlibs": []
+      }
+    }
+    ```
+
 ## Spack views for development tools
 
 [Spack environment views] are a way to create a single directory that contains all the dependencies of a package.
