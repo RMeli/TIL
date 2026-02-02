@@ -44,3 +44,22 @@ This is useful for cleaning up resources or performing specific actions when you
         ```console
         $ kill 37613
         ```
+
+## Print the current script
+
+It is often useful to print the content of a script before the output of the script itself,
+for debugging or logging purposes.
+
+This can be done by using the special variable `$0`, which contains the name of the script being executed.
+
+!!! example "Print current bash script"
+
+    ```console
+    $ bash test.sh 
+    #!/bin/bash
+
+    cat $0
+
+    echo "Hello"
+    Hello
+    ```
