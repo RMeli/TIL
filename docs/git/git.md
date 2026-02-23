@@ -293,6 +293,17 @@ git checkout <COMMIT>~ -- <FILE>
 To revert the changes introduced by a specific commit `<COMMIT>`,
 we checkout the file from the commit before it (`<COMMIT>~`).
 
+## Squash all commits in a branch
+
+New features are often developed in a separate branch.
+When the feature is complete, it might be desirable to squash all commits in the feature branch into a single commit.
+
+```bash
+git checkout <FEATURE_BRANCH>
+git reset --soft $(git merge-base <BASE_BRANCH> HEAD)
+git commit -m "<COMMIT_MESSAGE>"
+```
+
 [conditional configurations]: https://git-scm.com/docs/git-config#_conditional_includes
 [feature.manyFiles]: https://www.git-scm.com/docs/git-config/2.25.2#Documentation/git-config.txt-featuremanyFiles
 [GPG]: https://gnupg.org
