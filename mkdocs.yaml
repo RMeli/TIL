@@ -38,8 +38,8 @@ nav:
     - 'Bash': programming/bash.md
     - 'C++': programming/cpp.md
     - 'Fortran': programming/fortran.md
+    - 'Python': programming/python.md
   - 'Python':
-    - 'Package Managers': python/package-managers.md
     - 'MDAnalysis': python/mdanalysis.md
   - 'Tools':
     - 'rsync': tools/rsync.md

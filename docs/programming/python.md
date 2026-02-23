@@ -1,6 +1,8 @@
-# Python package managers
+# Python
 
-## Spack
+## Managing Python
+
+### Spack
 
 Spack installs every Python package in its own predix, 
 in contrast to `pip` which installs packages into the same prefix.
@@ -18,7 +20,18 @@ It is also possible to use a virtual environment created in the view:
 source <PATH_TO_VIEW>/bin/activate
 ```
 
-## Move `.conda` directory
+### Cleanup
+
+Some Python tools such as `venv` and `tox` create temporary directories that can get quite large over time.
+
+Remove all the directories:
+
+```bash
+find . -type d -name .venv -exec rm -rf {} +
+find . -type d -name .tox -exec rm -rf {} +
+```
+
+### Move `.conda` directory
 
 The `.conda` directory might get quite beefy over time.
 This might cause problems with disk space (for example on the `$HOME` directory on an HPC cluster)
@@ -41,7 +54,7 @@ conda config --add envs_dirs $DESTINATION/.conda/envs
 
 The shell need to be restarted for the changes to take effect.
 
-## Using `conda` with SLURM
+### Using `conda` with SLURM
 
 Many HPC clusters provide [modules] for [Anaconda].
 However, the command `conda activate ENV` within a [SLURM] script fails with the following error:
