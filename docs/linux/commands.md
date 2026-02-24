@@ -115,6 +115,17 @@ bwrap --dev-bind / / --bind <NEW_DIR> <OLD_DIR> <COMMAND>
 This is expecially useful to patch system files without modifying the original ones,
 or temporarily modify Spack-installed files without modifying the Spack installation.
 
+!!! warning
+ 
+    `--dev-bind / /` allows the process to access the entire filesystem.
+    This is necessary for commands to work properly, especially the shell.
+
+    Withou `--dev-bind / /`, one would get errors like the following:
+
+    ```
+    bwrap: execvp bash: No such file or directory
+    ```
+
 ??? example "Patch Spack-installed CUDA"
 
     On Ubuntu 25.10, `glibc`’s ``<math.h>`` declares `rsqrt` with `noexcept(true)`,
@@ -130,5 +141,23 @@ or temporarily modify Spack-installed files without modifying the Spack installa
     bwrap --dev-bind / / --bind ~/tmp/cuda-include/crt $(spack location cuda)/include/crt -- zsh
     # The shell will have the modified files in place of the original ones
     ```
+
+??? example "Modifying a squashfs image"
+
+    To modify a squashfs image that has to be mounted,
+    one can use `bwrap` to substitute the original image with a modified one.
+
+    ```bash
+    # Extract the original image
+    unsquashfs <IMAGE> -d <DIRECTORY>
+
+    # Modify the files in <DIRECTORY> as needed
+
+    # Mount the modified image using bwrap
+    bwrap --dev-bind / / --bind <DIRECTORY> <DIRECTORY> -- bash
+    ```
+
+    This avoids the need to repack the modified directory into a new squashfs image, which can be time-consuming.
+
 
 [bubblewrap]: https://github.com/containers/bubblewrap
