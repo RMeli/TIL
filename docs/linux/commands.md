@@ -103,3 +103,32 @@ diff -uNr <OLD> <NEW> > changes.patch
 ```
 
 This can be useful to generate patches for [Spack](../develop/spack.md).
+
+## bwrap
+
+`bwrap` ([bubblewrap]) allows to substitute a directory with another, which can be useful to test changes without modifying the original files.
+
+```bash
+bwrap --dev-bind / / --bind <NEW_DIR> <OLD_DIR> <COMMAND>
+```
+
+This is expecially useful to patch system files without modifying the original ones,
+or temporarily modify Spack-installed files without modifying the Spack installation.
+
+??? example "Patch Spack-installed CUDA"
+
+    On Ubuntu 25.10, `glibc`’s ``<math.h>`` declares `rsqrt` with `noexcept(true)`,
+    but CUDA’s headers declare it without `noexcept`.
+
+    To test a patch that adds `noexcept` to CUDA’s headers,
+    one can use `bwrap` to substitute the original CUDA headers with modified the original Spack-installed ones.
+
+    ```bash
+    cp $(spack location cuda)/include/crt/* ~/tmp/cuda-include/crt
+    # Modify the files in ~/tmp/cuda-include/crt/, such as math_functions.h
+    
+    bwrap --dev-bind / / --bind ~/tmp/cuda-include/crt $(spack location cuda)/include/crt -- zsh
+    # The shell will have the modified files in place of the original ones
+    ```
+
+[bubblewrap]: https://github.com/containers/bubblewrap
