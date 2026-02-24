@@ -1,4 +1,2 @@
-#mkdocs
-#mkdocs-material
 zensical
 mkdocs-autorefs
