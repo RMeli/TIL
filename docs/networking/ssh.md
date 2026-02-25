@@ -66,7 +66,7 @@ Protocol 2 # (1)!
 PermitRootLogin no # (2)!
 PasswordAuthentication no
 AuthenticationMethods publickey
-AllowUser <USER> # (3)!
+AllowUsers <USER> # (3)!
 MaxSessions 2 # (4)!
 ```
 
