@@ -20,7 +20,7 @@ This is useful in situations where `apt install` can't be used.
 * [podman]
 * [NVIDIA Container Toolkit]
 
-# GPU support
+### GPU support
 
 The [NVIDIA Container Toolkit] `nvidia-ctk` needs to be installed.
 In order to run a `podman` container with GPU support, one needs to
@@ -51,6 +51,21 @@ podman run --device=nvidia.com/gpu=all <IMAGE> <COMMAND>
     ```
     
     can be fixed by generating the CDI specification with `nvidia-ctk`, as shown above.
+
+
+### Pull a container from JFrog at CSCS
+
+1. Enable the VPN (if not on the CSCS network)
+1. Log in to JFrog
+   ```bash
+   podman login --username <USERNAME> --password <PASSWORD> jfrog.svc.cscs.ch
+   ```
+   The password is the JFrog API key, which can be generated in the JFrog web interface:
+   `User Menu > Edit Profile > API Key`
+1. Pull the container
+   ```bash
+   podman image pull jfrog.svc.cscs.ch/<REPOSITORY>/<IMAGE>:<TAG>
+   ```
 
 
 [NVIDIA Container Toolkit]: https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html

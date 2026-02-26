@@ -10,12 +10,7 @@ plugins:
   - autorefs
 nav:
   - TIL: index.md
-  - 'Cheminformatics':
-    - 'Open Babel': cheminformatics/openbabel.md
-    - 'RDKit': cheminformatics/rdkit.md
-  - 'Containers': 
-    - 'Containers': containers/containers.md
-    - 'Containers at CSCS': containers/cscs.md
+  - 'Containers': containers/containers.md
   - 'Development':
     - 'CMake': develop/cmake.md
     - 'Spack': develop/spack.md
@@ -39,10 +34,10 @@ nav:
     - 'C++': programming/cpp.md
     - 'Fortran': programming/fortran.md
     - 'Python': programming/python.md
-  - 'Python':
-    - 'MDAnalysis': python/mdanalysis.md
-  - 'Tools':
-    - 'rsync': tools/rsync.md
+  - 'Scientific Software':
+    - 'MDAnalysis': sciapps/mdanalysis.md
+    - 'Open Babel': sciapps/openbabel.md
+    - 'RDKit': sciapps/rdkit.md
 theme:
   name: material
   language: en
