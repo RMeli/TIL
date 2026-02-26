@@ -54,7 +54,7 @@ config:
     ccache: true
 ```
 
-! warning
+!!! warning
 
     Some packages with compiler wrappers (e.g., Kokkos) may not work correctly with Cache enabled.
 
