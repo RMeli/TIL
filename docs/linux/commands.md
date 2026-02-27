@@ -159,5 +159,13 @@ or temporarily modify Spack-installed files without modifying the Spack installa
 
     This avoids the need to repack the modified directory into a new squashfs image, which can be time-consuming.
 
+## flock
+
+`flock` allows to acquire a lock on a file.
+It is useful when multiple processes might be writing to it
+
+```bash
+flock myfile.txt -c 'echo "Hello, World!" > myfile.txt'
+```
 
 [bubblewrap]: https://github.com/containers/bubblewrap
