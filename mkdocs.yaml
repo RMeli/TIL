@@ -19,6 +19,7 @@ nav:
   - 'HPC':
     - 'Affinity': hpc/affinity.md
     - 'HPC Clusters': hpc/cluster.md
+    - 'CUDA': hpc/cuda.md
     - 'MPI': hpc/mpi.md
     - 'Slurm': hpc/slurm.md
   - 'git':
