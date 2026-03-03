@@ -360,7 +360,6 @@ error_dev(){
 	return 1
 }
 
-# Warn if build_stage is not set in the Spack environment
 warn_bs() {
 	echo "WARN┌ You are using a standard 'build_stage' directory."
 	echo "WARN| Consider adding the following to your Spack environment:"
@@ -368,6 +367,12 @@ warn_bs() {
 	echo "WARN|     config:"
 	echo "WARN└	  build_stage: <path-to-git-repo>/spack-build-stage/"
 }
+
+if [ "$0" = "$BASH_SOURCE" ]; then
+    echo "ERROR: the '$BASH_SOURCE' script must be sourced, not executed."
+    help
+    exit 1
+fi
 
 if [[ $# -ne 2 ]]; then
 	help
@@ -377,28 +382,29 @@ fi
 SPACK_ENV=$1
 SPACK_SPEC=$2
 
-if command -v ccache 2>&1 > /dev/null; then
-   export CMAKE_CXX_COMPILER_LAUNCHER=ccache
-   export CMAKE_C_COMPILER_LAUNCHER=ccache
-   export CMAKE_Fortran_COMPILER_LAUNCHER=ccache
-   export CMAKE_CUDA_COMPILER_LAUNCHER=ccache
-   export CMAKE_HIP_COMPILER_LAUNCHER=ccache
-fi
+# WARN: Does not work with Kokkos!
+# WARN: This also modifies the current shell environment
+# if command -v ccache 2>&1 > /dev/null; then
+#    export CMAKE_CXX_COMPILER_LAUNCHER=ccache
+#    export CMAKE_C_COMPILER_LAUNCHER=ccache
+#    export CMAKE_Fortran_COMPILER_LAUNCHER=ccache
+#    export CMAKE_CUDA_COMPILER_LAUNCHER=ccache
+#    export CMAKE_HIP_COMPILER_LAUNCHER=ccache
+# fi
 
-# WARN: This only work if $SPACK_SPEC is just after the 'develop' key
-grep -A 2 "develop:" "${SPACK_ENV}/spack.yaml" | grep -q "${SPACK_SPEC}:" || error_dev "${SPACK_SPEC}" || return
-grep -q "build_stage:" "${SPACK_ENV}/spack.yaml" || warn_bs
+yq ".spack.develop | has(\"${SPACK_SPEC}\")" "$SPACK_ENV/spack.yaml" | grep -q "true" || error_dev "${SPACK_SPEC}" || return # (1)!
+yq ".spack.config | has(\"build_stage\")" "$SPACK_ENV/spack.yaml" | grep -q "true" || warn_bs # (2)!
 
-spack -e "${SPACK_ENV}" clean || return # (1)!
-spack -e "${SPACK_ENV}" concretize -f || return # (2)!
-spack -e "${SPACK_ENV}" install --until=cmake --test=root --keep-stage || return # (3)!
+spack -e "${SPACK_ENV}" clean || return
+spack -e "${SPACK_ENV}" concretize -f || return 
+spack -e "${SPACK_ENV}" install --until=cmake --test=root --keep-stage || return
 
 SPACK_SOURCE_DIR=$(spack -e "${SPACK_ENV}" location --source-dir "${SPACK_SPEC}")
 SPACK_BUILD_DIR=$(spack -e "${SPACK_ENV}" location --build-dir "${SPACK_SPEC}")
 
 SPACK_ENV_NAME=$(basename "${SPACK_ENV}")
 ENVRC_TMP="/tmp/.envrc-${SPACK_ENV_NAME}-${SPACK_SPEC}"
-spack -e "${SPACK_ENV}" build-env --dump "${ENVRC_TMP}" "${SPACK_SPEC}" || return # (4)!
+spack -e "${SPACK_ENV}" build-env --dump "${ENVRC_TMP}" "${SPACK_SPEC}" || return
 echo "SPACK_BUILD_DIR=\"${SPACK_BUILD_DIR}\"; export SPACK_BUILD_DIR" >> "${ENVRC_TMP}"
 echo "SPACK_SOURCE_DIR=\"${SPACK_SOURCE_DIR}\"; export SPACK_SOURCE_DIR" >> "${ENVRC_TMP}"
 
@@ -409,21 +415,17 @@ direnv allow "${SPACK_BUILD_DIR}"
  mv "${ENVRC_TMP}" "${SPACK_SOURCE_DIR}/.envrc"
  direnv allow "${SPACK_SOURCE_DIR}"
 
-# Be friendly to LSPs
-mkdir -p "${SPACK_SOURCE_DIR}/build"
-ln -sf "${SPACK_BUILD_DIR}/compile_commands.json" "${SPACK_SOURCE_DIR}/build/compile_commands.json" # (5)!
+echo "CompileFlags:\n\tCompilationDatabase: ${SPACK_BUILD_DIR}" > "${SPACK_SOURCE_DIR}/.clangd" # (3)!
 
-# Remove broken symlinks (from previous builds)
-find "${SPACK_SOURCE_DIR}" -xtype l -delete
-	
+find ${SPACK_SOURCE_DIR} -xtype l -delete # (4)!
+
 pushd "${SPACK_SOURCE_DIR}" || return
 ```
 
-1. Clean the Spack environment.
-2. Concretize the environment.
-3. Install the dependencies and run CMake.
-4. Dump the build environment to an `.envrc` file. This is used by [direnv] to set up the environment.
-5. Create a symlink to the `compile_commands.json` file in the source directory. This is useful for LSPs.
+1. Check that the Spack spec passed to the script is a development spec
+2. Warn if the standard build stage directory is being used in the Spack environment
+3. Tell `clangd` where to find the compilation database (`compile_commands.json`)
+4. Remove dangling symlinks (from previous builds)
 
 !!! note
 
