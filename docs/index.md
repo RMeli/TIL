@@ -5,6 +5,10 @@ It's a mix of code snippets, tricks, and tips that I've picked up over the years
 Some might be ovious, but they are here as a quick reference. 
 Others might be less obvious and more interesting.
 
+$$
+\oint_\gamma f(z)\,dz = 2\pi i \sum_k \text{Res}(f, a_k)
+$$
+
 ## Useful tools
 
 ### Work
