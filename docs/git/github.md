@@ -84,6 +84,19 @@ jobs:
           SECRET_PASSPHRASE: ${{ secrets.SECRET_PASSPHRASE }}
 ```
 
+## SSH authentication
+
+`git pull` uses the `github.com` host by default. Therefore, the following SSH configuration should be used to authenticate with GitHub:
+
+```ssh
+Host github.com
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/github
+```
+
+Using `Host github` or some other name, does not work as `git` uses the `github.com` host. 
+
 [GitHub Secret]: https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets
 [GPG]: https://gnupg.org/
 [GitHub CLI]: https://cli.github.com/
