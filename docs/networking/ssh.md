@@ -75,3 +75,19 @@ MaxSessions 2 # (4)!
 3. Restrict access to specific users
 4. Limit number of concuirrent SSH sessions
 
+## Post-quantum key exchange algorithm warning
+
+OpenSSH on macOS (`OpenSSH_10.2p1, LibreSSL 3.3.6`) started showing the following warning:
+
+```bash
+** WARNING: connection is not using a post-quantum key exchange algorithm.
+** This session may be vulnerable to "store now, decrypt later" attacks.
+** The server may need to be upgraded. See https://openssh.com/pq.html
+```
+
+The following options allows to silence the warning:
+
+```bash
+    WarnWeakCrypto no-pq-kex
+```
+
