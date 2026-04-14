@@ -11,7 +11,14 @@ $$
 
 ## Useful tools
 
-### Work
+### macOS
+
+#### Security
+
+* [Little Snitch]: network monitor and firewall
+* [Micro Snitch]: microphone and camera monitor
+
+### Multi-Platform
 
 * [direnv]: environment switcher
 * [tmux]: terminal multiplexer
@@ -47,3 +54,5 @@ $$
 [git]: https://git-scm.com/
 [gh]: https://cli.github.com/
 [jq]: https://jqlang.org
+[Little Snitch]: https://obdev.at/products/littlesnitch/index.html
+[Micro Snitch]: https://obdev.at/products/microsnitch/index.html
