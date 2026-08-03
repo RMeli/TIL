@@ -2,6 +2,17 @@
 
 Tip and tricks about the [Slurm] workload manager.
 
+## Print output per task
+
+When multiple ranks output to stdout (for example when using `nvidia-smi` with multiple ranks),
+the output can be labelled with the rank number using the `--label` flag.
+
+!!! example "Label output per task"
+
+    ```bash
+    srun -n 4 --gpus-per-task=1 --label nvidia-smi
+    ```
+
 ## Slurm configuration
 
 ### Check generic resources (Gres)
