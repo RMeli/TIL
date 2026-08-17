@@ -13,6 +13,8 @@ $$
 
 ### macOS
 
+* [EasyDMG]: installer
+
 #### Security
 
 * [Little Snitch]: network monitor and firewall
@@ -56,3 +58,4 @@ $$
 [jq]: https://jqlang.org
 [Little Snitch]: https://obdev.at/products/littlesnitch/index.html
 [Micro Snitch]: https://obdev.at/products/microsnitch/index.html
+[EasyDMG]: https://easydmg.app
