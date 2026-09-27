@@ -20,7 +20,7 @@ the output can be labelled with the rank number using the `--label` flag.
 The following command will show the generic resources (Gres) available on the node:
 
 ```bash
-scontrol show nods | grep Gres | sort -u
+scontrol show nodes | grep Gres | sort -u
 ```
 
 This command can be used to check for misconfigures nodes.
