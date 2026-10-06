@@ -157,7 +157,7 @@ If a commit is marked as good or bad by mistake, it can be corrected with the fo
 
 !!! tip
 
-    One could add the following [git alias](git.md/#aliases) to undo the last action automatically:
+    One could add the following [git alias](#aliases) to undo the last action automatically:
 
     ```
     alias bisect-undo='git bisect log | head -n -2 > /tmp/git-fixed-bisect.txt && git bisect reset && git bisect replay /tmp/git-fixed-bisect.txt && rm /tmp/git-fixed-bisect.txt'

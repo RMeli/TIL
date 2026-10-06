@@ -14,7 +14,7 @@ nav = [
 	"develop/spack.md"
   ]},
   {"Editors" = [
-    "editors/vscode.md"
+    "editors/vscode.md",
     "editors/zed.md"
   ]},
   {"HPC" = [
