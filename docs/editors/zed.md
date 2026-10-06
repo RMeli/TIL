@@ -9,7 +9,7 @@ However, the registry-installed ACPs may clash with the ACPs installed on the sy
 It is possible to configure ACPs to use a specific version of an ACP installed on the system
 by configuring the `agent_servers` in the `settings.json` file.
 
-```json "settings.json"
+```json title="settings.json"
 "agent_servers": {
   "opencode": {
     "default_config_options": {
@@ -25,9 +25,9 @@ by configuring the `agent_servers` in the `settings.json` file.
 }
 ```
 
-! warning "OpenCode ACP installed from registry error"
-  ```
-  Server exited with status exit status: 1
-  Error: Unexpected error
-  Database is not empty and has no session table
-  ```
+??? warning "OpenCode ACP installed from registry error"
+    ```
+    Server exited with status exit status: 1
+    Error: Unexpected error
+    Database is not empty and has no session table
+    ```
