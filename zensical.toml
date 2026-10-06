@@ -11,10 +11,11 @@ nav = [
   {"Containers" = "containers/containers.md"},
   {"Development" = [
   	"develop/cmake.md",
-	  "develop/spack.md"
+	"develop/spack.md"
   ]},
   {"Editors" = [
     "editors/vscode.md"
+    "editors/zed.md"
   ]},
   {"HPC" = [
     "hpc/affinity.md",
@@ -33,6 +34,9 @@ nav = [
   ]},
   {"Networking" = [
     "networking/ssh.md"
+  ]},
+  {"Misc" = [
+    "misc/zotero.md"
   ]},
   {"Programming" = [
     "programming/bash.md",
@@ -107,7 +111,7 @@ pygments_lang_class = true
 line_spans = "__span"
 
 [project.markdown_extensions.pymdownx.emoji]
-emoji_index = "zensical.extensions.emoji.twemoji" 
+emoji_index = "zensical.extensions.emoji.twemoji"
 emoji_generator = "zensical.extensions.emoji.to_svg"
 
 [project.markdown_extensions.pymdownx.tabbed]
