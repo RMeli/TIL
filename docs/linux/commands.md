@@ -45,7 +45,7 @@ ausyscall --dump
     sudo apt install auditd
     ```
 
-# Tracing system calls
+## Tracing system calls
 
 `strace` allows to trace system calls and signals made by a process.
 
@@ -166,6 +166,20 @@ It is useful when multiple processes might be writing to it
 
 ```bash
 flock myfile.txt -c 'echo "Hello, World!" > myfile.txt'
+```
+
+## Disk usage including hidden files
+
+```bash
+du -sh .[!.]* *
+```
+
+`[!.]` is required to avoid matching `..` (parent directory).
+
+## Find core dumps
+
+```bash
+find / -type f -name 'core' 2>/dev/null
 ```
 
 [bubblewrap]: https://github.com/containers/bubblewrap
